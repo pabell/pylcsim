@@ -1,0 +1,561 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Documentation for pyLCSIM &mdash; pyLCSIM 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pyLCSIM 0.1 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to pyLCSIM’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to pyLCSIM’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyLCSIM 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="documentation-for-pylcsim">
+<h1>Documentation for pyLCSIM<a class="headerlink" href="#documentation-for-pylcsim" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>pyLCSIM is python package to simulate X-ray lightcurves from coherent signals and power spectrum models.</p>
+<p>Coherent signals can be simulated as a sum of one or more sinusoids, each with its frequency, pulsed fraction or phase shift; or as a series of harmonics of a fundamental frequency.</p>
+<p>Power spectra can be simulated from a model of the power spectrum density (PSD), using as a template one or more library functions. The user can also define his/her custom models.
+Models are additive.</p>
+<p>Warning: the current release (0.1) is HIGHLY EXPERIMENTAL!
+Use at your risk...</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>TBC</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s begin with a PSD model simulation.</p>
+<p>We import the usual packages:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pyLCSIM</span>
+</pre></div>
+</div>
+<p>We assume that our source has a rate of 300000 counts/s. Moreover, we have a 3000 counts/s background rate, a 50 s exposure time and our observation has a time resolution of 10 ms.
+We want to simulate a QPO at a frequency of 10 Hz, superimposed to a continuum modelled as a smoothly-varying broken power law.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rate_src</span>    <span class="o">=</span> <span class="mf">300000.0</span>
+<span class="n">rate_bkg</span>    <span class="o">=</span> <span class="mf">3000.0</span>
+<span class="n">t_exp</span>       <span class="o">=</span> <span class="mf">50.0</span>
+<span class="n">dt</span>          <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">nbins</span> <span class="o">=</span> <span class="nb">long</span><span class="p">(</span><span class="n">t_exp</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, the simulation follows as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Instantiate a simulation object</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">pyLCSIM</span><span class="o">.</span><span class="n">Simulation</span><span class="p">()</span>
+
+<span class="c"># Add two PSD models: a smooth broken power law and a Lorentzian representing a QPO.</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="s">&#39;smoothbknpo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="s">&#39;lorentzian&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+
+<span class="c"># Run the simulation</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">rate_src</span><span class="p">,</span> <span class="n">rms</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c"># Add Poisson noise to the light curve</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">poissonRandomize</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">rate_bkg</span><span class="p">)</span>
+
+<span class="c"># Get lightcurve and power spectrum as 1-D arrays</span>
+<span class="n">time</span><span class="p">,</span> <span class="n">rate</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">getLightCurve</span><span class="p">()</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">getPowerSpectrum</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Done! We can view the results as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Plot the lightcurve and power spectrum</span>
+<span class="n">fig0</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
+
+<span class="n">fig1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">psd</span><span class="p">,</span> <span class="n">drawstyle</span><span class="o">=</span><span class="s">&#39;steps-mid&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c"># Save FITS files with lightcurve and spectrum</span>
+<span class="n">pyLCSIM</span><span class="o">.</span><span class="n">saveFITSLC</span><span class="p">(</span><span class="s">&quot;myLC.fits&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
+<span class="n">pyLCSIM</span><span class="o">.</span><span class="n">saveFITSPSD</span><span class="p">(</span><span class="s">&quot;myPSD.fits&quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">psd</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The following is an example using a sum of sinusoids:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pyLCSIM</span>
+
+<span class="n">rate_src</span>    <span class="o">=</span> <span class="mf">300000.0</span>
+<span class="n">rate_bkg</span>    <span class="o">=</span> <span class="mf">3000.0</span>
+<span class="n">t_exp</span>       <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">dt</span>          <span class="o">=</span> <span class="mf">0.0001</span>
+<span class="n">nbins</span> <span class="o">=</span> <span class="nb">long</span><span class="p">(</span><span class="n">t_exp</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">nbins</span>
+
+<span class="c"># Instantiate a simulation object, this time as coherent</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">pyLCSIM</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;coherent&#39;</span><span class="p">)</span>
+
+
+<span class="c"># Run the simulation:</span>
+<span class="c"># four sinusoidal frequencies: 340, 550, 883, 1032 Hz</span>
+<span class="c"># with pulsed fractions 1%, 5%, 7% and 15% respectively</span>
+<span class="c"># The third frequency has a 35 degree phase shift with respect to the others</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">rate_src</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="p">[</span><span class="mi">340</span><span class="p">,</span> <span class="mi">550</span><span class="p">,</span> <span class="mi">883</span><span class="p">,</span> <span class="mi">1032</span><span class="p">],</span> <span class="n">amp</span><span class="o">=</span><span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">],</span> <span class="n">phi</span><span class="o">=</span><span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">35.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span>
+
+<span class="c"># Add Poisson noise to the light curve</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">poissonRandomize</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">rate_bkg</span><span class="p">)</span>
+
+<span class="c"># Get lightcurve and power spectrum as 1-D arrays</span>
+<span class="n">time</span><span class="p">,</span> <span class="n">rate</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">getLightCurve</span><span class="p">()</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">getPowerSpectrum</span><span class="p">()</span>
+
+<span class="c"># Plot the lightcurve and power spectrum</span>
+<span class="n">fig0</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
+
+<span class="n">fig1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">psd</span><span class="p">,</span> <span class="n">drawstyle</span><span class="o">=</span><span class="s">&#39;steps-mid&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c"># Save FITS files with lightcurve and spectrum</span>
+<span class="n">pyLCSIM</span><span class="o">.</span><span class="n">saveFITSLC</span><span class="p">(</span><span class="s">&quot;myLC.fits&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
+<span class="n">pyLCSIM</span><span class="o">.</span><span class="n">saveFITSPSD</span><span class="p">(</span><span class="s">&quot;myPSD.fits&quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">psd</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Finally, an example with a fundamental frequency and two harmonics:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pyLCSIM</span>
+
+<span class="n">rate_src</span>    <span class="o">=</span> <span class="mf">300000.0</span>
+<span class="n">rate_bkg</span>    <span class="o">=</span> <span class="mf">3000.0</span>
+<span class="n">t_exp</span>       <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">dt</span>          <span class="o">=</span> <span class="mf">0.0001</span>
+<span class="n">phase_shift</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">nbins</span> <span class="o">=</span> <span class="nb">long</span><span class="p">(</span><span class="n">t_exp</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">nbins</span>
+
+<span class="c"># Instantiate a simulation object, this time as coherent</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">pyLCSIM</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;coherent&#39;</span><span class="p">)</span>
+
+
+<span class="c"># Run the simulation:</span>
+<span class="c"># Fundamental at 500 Hz, 3 harmonics (500, 1000, 1500 Hz)</span>
+<span class="c"># with pulsed fractions 10%, 5% and 15% respectively</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">rate_src</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">nha</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">amp</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">])</span>
+
+<span class="c"># Add Poisson noise to the light curve</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">poissonRandomize</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">rate_bkg</span><span class="p">)</span>
+
+<span class="c"># Get lightcurve and power spectrum as 1-D arrays</span>
+<span class="n">time</span><span class="p">,</span> <span class="n">rate</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">getLightCurve</span><span class="p">()</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">psd</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">getPowerSpectrum</span><span class="p">()</span>
+
+<span class="c"># Plot the lightcurve and power spectrum</span>
+<span class="n">fig0</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
+
+<span class="n">fig1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">psd</span><span class="p">,</span> <span class="n">drawstyle</span><span class="o">=</span><span class="s">&#39;steps-mid&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c"># Save FITS files with lightcurve and spectrum</span>
+<span class="n">pyLCSIM</span><span class="o">.</span><span class="n">saveFITSLC</span><span class="p">(</span><span class="s">&quot;myLC.fits&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
+<span class="n">pyLCSIM</span><span class="o">.</span><span class="n">saveFITSPSD</span><span class="p">(</span><span class="s">&quot;myPSD.fits&quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">psd</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="module-pyLCSIM">
+<span id="main-module"></span><h2>Main module<a class="headerlink" href="#module-pyLCSIM" title="Permalink to this headline">¶</a></h2>
+<p>A python package to simulate X-ray lightcurves
+from coherent signals and power spectrum models.</p>
+<dl class="class">
+<dt id="pyLCSIM.Simulation">
+<em class="property">class </em><tt class="descclassname">pyLCSIM.</tt><tt class="descname">Simulation</tt><big>(</big><em>kind='psd'</em><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main simulation class.
+docstring TBW</p>
+<dl class="docutils">
+<dt>History:</dt>
+<dd>v0.1:   Riccardo Campana October 20, 2014. 
+Initial python implementation.</dd>
+</dl>
+<dl class="method">
+<dt id="pyLCSIM.Simulation.addModel">
+<tt class="descname">addModel</tt><big>(</big><em>modelName</em>, <em>modelParams</em><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation.addModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append simulation model to model dictionary</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyLCSIM.Simulation.getLightCurve">
+<tt class="descname">getLightCurve</tt><big>(</big><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation.getLightCurve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get lightcurve as time and rate arrays</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyLCSIM.Simulation.getPowerSpectrum">
+<tt class="descname">getPowerSpectrum</tt><big>(</big><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation.getPowerSpectrum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get power spectrum as frequency and power arrays</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyLCSIM.Simulation.info">
+<tt class="descname">info</tt><big>(</big><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints simulation informations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyLCSIM.Simulation.run">
+<tt class="descname">run</tt><big>(</big><em>dt</em>, <em>nbins_old</em>, <em>mean</em>, <em>rms=None</em>, <em>freq=None</em>, <em>nha=None</em>, <em>amp=None</em>, <em>phi=None</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the simulation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyLCSIM.lcsinusoid">
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">lcsinusoid</tt><big>(</big><em>dt=1.0</em>, <em>nbins=65536</em>, <em>mean=0.0</em>, <em>freq=None</em>, <em>nha=1</em>, <em>amp=None</em>, <em>phi=None</em><big>)</big><a class="headerlink" href="#pyLCSIM.lcsinusoid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate coherent signals as a sequence of sinusoids (if len(freq) &gt; 1) or
+of the fundamental frequency plus nha-1 harmonics (if len(freq) == 1),
+each with normalized pulsed fraction amp[i].</p>
+<dl class="docutils">
+<dt>Kwargs:</dt>
+<dd><p class="first">dt:     time resolution of the lightcurve to be simulated (default: 1.0).</p>
+<p>nbins:  Number of bins of the simulated lightcurve (default: 65536).</p>
+<p>freq:   if float: frequency of the fundamental harmonic, if array: frequencies of sinusoids.</p>
+<p>nha:    number of harmonics (&gt;1)</p>
+<p>amp:    array with nha/nfreq elements; pulsed fraction for each frequency</p>
+<p class="last">phi:    array with nha/nfreq elements; phases (in degrees!) for each frequency</p>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">time:   time array</p>
+<p class="last">rate:   array of count rates</p>
+</dd>
+<dt>History:</dt>
+<dd><dl class="first last docutils">
+<dt>v0.1:   Riccardo Campana July 16, 2014. Initial python implementation, from the IDL procedure</dt>
+<dd>lcharmonics.pro v0.0.3 by I. Donnarumma &amp; R. Campana</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyLCSIM.lcpsd">
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">lcpsd</tt><big>(</big><em>dt=1.0</em>, <em>nbins=65536</em>, <em>mean=0.0</em>, <em>rms=1.0</em>, <em>seed=None</em>, <em>models=None</em>, <em>phase_shift=None</em><big>)</big><a class="headerlink" href="#pyLCSIM.lcpsd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate a light-curve with a general power spectrum shape.
+For the underlying algorithm see: 
+J. Timmer &amp; M. Koenig, &#8220;On generating power law noise&#8221;, 
+A&amp;A, 300, 707-710 (1995).</p>
+<dl class="docutils">
+<dt>Kwargs:</dt>
+<dd><p class="first">dt:     time resolution of the lightcurve to be simulated</p>
+<p>nbins:  Number of bins of the simulated lightcurve (default:65536).
+Should be power of two for optimum performance (FFT...)</p>
+<p>mean:   Mean count rate of the simulated lightcurve (default: 0.).</p>
+<p>rms:    Total fractional RMS of the simulated lightcurve.</p>
+<p>seed:   Seed for the random number generator.</p>
+<p>models: List of tuples, each containing:
+a. Name of a function returning the desired PSD shape,
+b. Parameters of the model (argument to model).
+Total model is the sum of these tuples.</p>
+<p class="last">phase_shift: Constant phase shift (in degrees) to the FFT.</p>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">time:   time array.</p>
+<p class="last">rate:   array of count rates.</p>
+</dd>
+<dt>History:     </dt>
+<dd>v0.1:   Riccardo Campana July 15, 2014. 
+Initial python implementation. 
+Based on AITLIB IDL procedure timmerlc.pro</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyLCSIM.poisson_randomization">
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">poisson_randomization</tt><big>(</big><em>rate</em>, <em>dt=1.0</em>, <em>bkg=0.0</em>, <em>seed=None</em><big>)</big><a class="headerlink" href="#pyLCSIM.poisson_randomization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Poisson randomization of the rate array.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>rate:   input array of count rates (in cts/s).</dd>
+<dt>Kwargs:    </dt>
+<dd><p class="first">dt:     time resolution of the lightcurve to be simulated.</p>
+<p>bkg:    Mean count rate of the simulated lightcurve (default: 0.0).</p>
+<p class="last">seed:   Seed for the random number generator.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>newrate: Array of Poisson randomized count rates of length n.</dd>
+<dt>History:     </dt>
+<dd>v0.1:   Riccardo Campana July 16, 2014.
+Initial python implementation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyLCSIM.psd">
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">psd</tt><big>(</big><em>time</em>, <em>rate</em>, <em>norm='leahy'</em><big>)</big><a class="headerlink" href="#pyLCSIM.psd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns power spectral density from a (real) time series
+with Leahy normalization.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">time:   array of times (evenly binned).</p>
+<p class="last">rate:   array of rate in counts/s.</p>
+</dd>
+<dt>Kwargs:    </dt>
+<dd>norm:   Normalization (only Leahy for now).</dd>
+<dt>Returns:</dt>
+<dd><p class="first">f:      array of frequencies.</p>
+<p class="last">p:      power spectrum.</p>
+</dd>
+<dt>History:</dt>
+<dd>v0.1:   Riccardo Campana July 16, 2014.
+Initial python implementation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyLCSIM.rebin">
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">rebin</tt><big>(</big><em>x</em>, <em>y</em>, <em>nbins</em>, <em>mode='rate'</em><big>)</big><a class="headerlink" href="#pyLCSIM.rebin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Linearly rebins the (x, y) 1-D arrays using #nbins new bins, 
+taking for each new element the mean of the corresponding x elements,
+and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8217;) of the corresponding y elements.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">x:   x array (same length as y)</p>
+<p>y:   y array (same length as x)</p>
+<p class="last">nbins:   Number of new bins. Should be a factor of len(x) == len(y).</p>
+</dd>
+<dt>Kwargs:</dt>
+<dd>mode: &#8216;counts&#8217; or &#8216;rate&#8217;; returns sum or mean of y-array elements</dd>
+<dt>Returns:</dt>
+<dd><p class="first">xreb:   rebinned x array</p>
+<p class="last">yreb:   rebinned y array</p>
+</dd>
+<dt>History:</dt>
+<dd>v0.1:   Riccardo Campana July 21, 2014.
+Initial python implementation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyLCSIM.logrebin">
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">logrebin</tt><big>(</big><em>x</em>, <em>y</em>, <em>nbins</em>, <em>mode='rate'</em><big>)</big><a class="headerlink" href="#pyLCSIM.logrebin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logarithmically rebins the (x, y) 1-D arrays using #nbins new bins, 
+taking for each new element the logarithmic mean of the corresponding x elements,
+and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8217;) of the corresponding y elements.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">x:   x array (same length as y)</p>
+<p>y:   y array (same length as x)</p>
+<p class="last">nbins:   Number of new bins.</p>
+</dd>
+<dt>Kwargs:</dt>
+<dd>mode: &#8216;counts&#8217; or &#8216;rate&#8217;; returns sum or mean of y-array elements</dd>
+<dt>Returns:</dt>
+<dd><p class="first">xreb:   rebinned x array</p>
+<p class="last">yreb:   rebinned y array</p>
+</dd>
+<dt>History:</dt>
+<dd>v0.1:   Riccardo Campana July 21, 2014.
+Initial python implementation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyLCSIM.saveFITSLC">
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">saveFITSLC</tt><big>(</big><em>outfilename</em>, <em>time</em>, <em>rate</em>, <em>clobber=True</em><big>)</big><a class="headerlink" href="#pyLCSIM.saveFITSLC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce an output FITS file containing a lightcurve.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">outfilename: Name of the output FITS file</p>
+<p>time: Array of times</p>
+<p class="last">rate: Array of count rates</p>
+</dd>
+<dt>Kwargs:</dt>
+<dd>clobber: if True, overwrites existing files with same name</dd>
+<dt>Returns:</dt>
+<dd>none</dd>
+<dt>History:</dt>
+<dd>v0.1:   Riccardo Campana October 20, 2014
+Initial python implementation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyLCSIM.saveFITSPSD">
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">saveFITSPSD</tt><big>(</big><em>outfilename</em>, <em>freq</em>, <em>psd</em>, <em>clobber=True</em><big>)</big><a class="headerlink" href="#pyLCSIM.saveFITSPSD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce an output FITS file containing a power spectrum.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">outfilename: Name of the output FITS file</p>
+<p>freq: Array of frequencies</p>
+<p class="last">psd: Array of power spectrum</p>
+</dd>
+<dt>Kwargs:</dt>
+<dd>clobber: if True, overwrites existing files with same name</dd>
+<dt>Returns:</dt>
+<dd>none</dd>
+<dt>History:</dt>
+<dd>v0.1:   Riccardo Campana October 20, 2014
+Initial python implementation.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyLCSIM.psd_models">
+<span id="submodule-psd-models"></span><h2>Submodule: psd_models<a class="headerlink" href="#module-pyLCSIM.psd_models" title="Permalink to this headline">¶</a></h2>
+<p>Contains the analytic models for the power spectrum density.</p>
+<dl class="function">
+<dt id="pyLCSIM.psd_models.lorentzian">
+<tt class="descclassname">pyLCSIM.psd_models.</tt><tt class="descname">lorentzian</tt><big>(</big><em>x</em>, <em>p</em><big>)</big><a class="headerlink" href="#pyLCSIM.psd_models.lorentzian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generalized Lorentzian function.</p>
+<blockquote>
+<div><p>(<strong>WARNING</strong>: for n != 2 the function is no more normalized!)</p>
+<p>Args:
+x:      (non-zero) frequencies.</p>
+<p>p[0]:   x0 = peak central frequency.</p>
+<blockquote>
+<div><p>p[1]:   gamma = FWHM of the peak.</p>
+<p>p[2]:   value of the peak at x = x0.</p>
+<p>p[3]:   n = power coefficient.</p>
+</div></blockquote>
+<p>The quality factor is given by Q = x0/gamma.</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>f:  psd model.</dd>
+<dt>History:</dt>
+<dd>v0.1:   Riccardo Campana July 15, 2014.
+Initial python implementation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyLCSIM.psd_models.smoothbknpo">
+<tt class="descclassname">pyLCSIM.psd_models.</tt><tt class="descname">smoothbknpo</tt><big>(</big><em>x</em>, <em>p</em><big>)</big><a class="headerlink" href="#pyLCSIM.psd_models.smoothbknpo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Smooth broken power law.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">x:      (non-zero) frequencies.</p>
+<p>p[0]:   Normalization.</p>
+<p>p[1]:   power law index for f&#8211;&gt; 0.</p>
+<p>p[2]:   power law index for f&#8211;&gt; oo.</p>
+<p>p[3]:   break frequency.</p>
+<dl class="last docutils">
+<dt>Returns:</dt>
+<dd>f:  psd model.</dd>
+</dl>
+</dd>
+<dt>History:</dt>
+<dd>v0.1:   Riccardo Campana July 15, 2014.
+Initial python implementation.</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Documentation for pyLCSIM</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#module-pyLCSIM">Main module</a></li>
+<li><a class="reference internal" href="#module-pyLCSIM.psd_models">Submodule: psd_models</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to pyLCSIM&#8217;s documentation!</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/code.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to pyLCSIM’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">pyLCSIM 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Riccardo Campana.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+  </body>
+</html>
