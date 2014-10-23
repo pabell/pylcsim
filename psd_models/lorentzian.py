@@ -21,7 +21,7 @@ def lorentzian(x, p):
         f:  psd model.
         
     History:
-        v0.1:   Riccardo Campana July 15, 2014.
+        v0.1:   Riccardo Campana, 2014.
         Initial python implementation.
     """
     assert p[3] > 0., "The power coefficient should be greater than zero."

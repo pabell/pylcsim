@@ -37,7 +37,9 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
         Initial python implementation. 
         Based on AITLIB IDL procedure timmerlc.pro
     """
-
+    
+    # Sanity check
+    assert rms <= 1., 'ERROR: Fractional rms should be <=1 !'
 
     # Raise exception if a model is not explicitly given
     if not models:
