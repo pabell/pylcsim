@@ -19,7 +19,7 @@ def poisson_randomization(rate, dt=1., bkg=0., seed=None):
         newrate: Array of Poisson randomized count rates of length n.
     
     History:	 
-        v0.1:   Riccardo Campana July 16, 2014.
+        v0.1:   Riccardo Campana, 2014.
         Initial python implementation.
     """
     
@@ -59,7 +59,7 @@ def psd(time, rate, norm='leahy'):
         p:      power spectrum.
         
     History:
-        v0.1:   Riccardo Campana July 16, 2014.
+        v0.1:   Riccardo Campana, 2014.
         Initial python implementation.
     """
     
@@ -110,7 +110,7 @@ def rebin(x, y, nbins, mode='rate'):
         yreb:   rebinned y array
         
     History:
-        v0.1:   Riccardo Campana July 21, 2014.
+        v0.1:   Riccardo Campana, 2014.
         Initial python implementation.
     """
     # Sanity checks
@@ -153,7 +153,7 @@ def logrebin(x, y, nbins, mode='rate'):
         yreb:   rebinned y array
         
     History:
-        v0.1:   Riccardo Campana July 21, 2014.
+        v0.1:   Riccardo Campana, 2014.
         Initial python implementation.
     """
     # Sanity checks
@@ -195,7 +195,7 @@ def saveFITSLC(outfilename, time, rate, clobber=True):
         none
         
     History:
-        v0.1:   Riccardo Campana October 20, 2014
+        v0.1:   Riccardo Campana, 2014
         Initial python implementation.
     """
     # Sanity check
@@ -230,7 +230,7 @@ def saveFITSPSD(outfilename, freq, psd, clobber=True):
         none
 
     History:
-        v0.1:   Riccardo Campana October 20, 2014
+        v0.1:   Riccardo Campana, 2014
         Initial python implementation.
     """
     # Sanity check

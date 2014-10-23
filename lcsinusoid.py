@@ -32,7 +32,7 @@ def lcsinusoid(dt=1., nbins=65536, mean=0., freq=None, nha=1, amp=None, phi=None
         rate:   array of count rates
 
     History:
-        v0.1:   Riccardo Campana July 16, 2014. Initial python implementation, from the IDL procedure
+        v0.1:   Riccardo Campana, 2014. Initial python implementation, from the IDL procedure
                 lcharmonics.pro v0.0.3 by I. Donnarumma & R. Campana 
     """
     # Sanity checks

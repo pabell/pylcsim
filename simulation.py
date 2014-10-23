@@ -10,7 +10,7 @@ class Simulation(object):
     docstring TBW
     
     History:
-        v0.1:   Riccardo Campana October 20, 2014. 
+        v0.1:   Riccardo Campana, 2014. 
         Initial python implementation. 
     """
     def __init__(self, kind='psd'):

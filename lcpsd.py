@@ -33,7 +33,7 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
         rate:   array of count rates.
     
     History:	 
-        v0.1:   Riccardo Campana July 15, 2014. 
+        v0.1:   Riccardo Campana, 2014. 
         Initial python implementation. 
         Based on AITLIB IDL procedure timmerlc.pro
     """
