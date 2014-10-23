@@ -25,13 +25,13 @@ pyLCSIM requires `Numpy <http://www.numpy.org>`_ (at least v1.8) and `Astropy <h
 Installation
 ============
 
-The package can be downloaded `here <http://example.com/>`_.
+The package can be downloaded `here <../pyLCSIM-0.1.tar.gz>`_.
 
 The installation follows the usual steps::
 
-	$ tar xzvf aaa
+	$ tar xzvf pyLCSIM-0.1.tar.gz
 	
-	$ cd aaa
+	$ cd pyLCSIM-0.1
 	
 	$ python setup.py install
 
