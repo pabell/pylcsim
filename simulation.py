@@ -7,7 +7,6 @@ from utils import *
 class Simulation(object):
     """
     Main simulation class.
-    docstring TBW
     
     History:
         v0.1:   Riccardo Campana, 2014. 
