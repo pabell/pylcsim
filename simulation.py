@@ -23,7 +23,7 @@ class Simulation(object):
         self.rate = []
         self.freq = []
         self.psd  = []
-        # self.binsToKill = 0
+        self.binsToKill = 0
         
     def addModel(self, modelName, modelParams):
         """
@@ -62,8 +62,8 @@ class Simulation(object):
             nbins = 2**24
             if verbose:
                 print "Maximum number of bins (2^24) exceeded. Reset to 2^24."
-        # else:
-        #     self.binsToKill = nbins-nbins_old  
+        else:
+            self.binsToKill = nbins-nbins_old  
         
         # Put control on input params
         if self.kind == 'psd':
@@ -72,8 +72,8 @@ class Simulation(object):
         elif self.kind == 'coherent':
             self.time, self.rate = lcsinusoid(dt=dt, nbins=nbins, mean=mean, freq=freq, amp=amp, phi=phi, nha=nha)
         
-        # self.time = self.time[:-self.binsToKill]
-        # self.rate = self.rate[:-self.binsToKill]
+        self.time = self.time[:-self.binsToKill]
+        self.rate = self.rate[:-self.binsToKill]
         
     def poissonRandomize(self, dt, bkg):
         self.rate = poisson_randomization(self.rate, dt=dt, bkg=bkg)
