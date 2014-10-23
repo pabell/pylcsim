@@ -11,6 +11,8 @@ Coherent signals can be specified as a sum of one or more sinusoids, each with i
 Power spectra can be simulated from a model of the power spectrum density (PSD), using as a template one or more of the built-in library functions. The user can also define his/her custom models.
 Models are additive.
 
+A PDF version of these notes is available at `here <../latex/pyLCSIM.pdf>`_.
+
 **Warning**: the current release (0.1) is HIGHLY EXPERIMENTAL! Use at your own risk...
 
 =============
