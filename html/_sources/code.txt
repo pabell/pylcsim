@@ -13,7 +13,7 @@ Models are additive.
 
 A PDF version of these notes is available `here <../latex/pyLCSIM.pdf>`_.
 
-**Warning**: the current release (0.1) is HIGHLY EXPERIMENTAL! Use at your own risk...
+**Warning**: the current release (0.1.x) is HIGHLY EXPERIMENTAL! Use at your own risk...
 
 =============
 Prerequisites
@@ -27,13 +27,13 @@ pyLCSIM requires `Numpy <http://www.numpy.org>`_ (at least v1.8) and `Astropy <h
 Installation
 ============
 
-The package can be downloaded `here <../pyLCSIM-0.1.tar.gz>`_.
+The package can be downloaded `here <../pyLCSIM-0.1.1.tar.gz>`_.
 
 The installation follows the usual steps::
 
-	$ tar xzvf pyLCSIM-0.1.tar.gz
+	$ tar xzvf pyLCSIM-0.1.1.tar.gz
 	
-	$ cd pyLCSIM-0.1
+	$ cd pyLCSIM-0.1.1
 	
 	$ python setup.py install
 
