@@ -231,3 +231,11 @@ Submodule: psd_models
 
 .. automodule:: pyLCSIM.psd_models
    :members:
+
+=====================
+Changelog
+=====================
+v0.1.1: Bugfix. Modified Simulation class.
+
+v0.1: Initial release.
+
