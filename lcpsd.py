@@ -99,13 +99,15 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
     # Average and standard deviation
     avg = np.mean(rate)
     std = np.std(rate)
-    # print "Generated curve avg ", avg, " std ", std
 
     # Rescaling of the light curve
     # 1. to zero mean and normalized to one standard deviation
     # 2. to "mean" mean and std. dev. = mean*rms
     # (where rms is the fractional rms)
     rate = (rate-avg)/std * mean * rms + mean
-
+    
+    print "Generated curve mean ", avg, " std ", std
+    print "Rescaled curve mean ", np.mean(rate), " std ", np.std(rate)
+    
     return time, rate
 

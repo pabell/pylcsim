@@ -9,6 +9,8 @@ class Simulation(object):
     Main simulation class.
     
     History:
+        v0.1.1: Riccardo Campana, 2014-
+        Bugfix.
         v0.1:   Riccardo Campana, 2014. 
         Initial python implementation. 
     """
@@ -67,7 +69,7 @@ class Simulation(object):
         
         # Put control on input params
         if self.kind == 'psd':
-            self.time, self.rate = lcpsd(dt=dt, nbins=nbins, mean=mean, rms=0.5, models=self.models)
+            self.time, self.rate = lcpsd(dt=dt, nbins=nbins, mean=mean, rms=rms, models=self.models)
         
         elif self.kind == 'coherent':
             self.time, self.rate = lcsinusoid(dt=dt, nbins=nbins, mean=mean, freq=freq, amp=amp, phi=phi, nha=nha)
