@@ -169,7 +169,7 @@ Note the different exposure time (1 s) and time resolution (100 us)::
 
 
 ============
-Example 2
+Example 3
 ============
 
 Finally, an example with a fundamental frequency and two harmonics::
