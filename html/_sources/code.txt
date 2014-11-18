@@ -13,7 +13,7 @@ Models are additive.
 
 A PDF version of these notes is available `here <../latex/pyLCSIM.pdf>`_.
 
-**Warning**: the current release (0.x.y) is HIGHLY EXPERIMENTAL! Use at your own risk...
+**Warning**: the current release (0.x.y.z) is HIGHLY EXPERIMENTAL! Use at your own risk...
 
 =============
 Prerequisites

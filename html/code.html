@@ -99,7 +99,7 @@
 <p>Power spectra can be simulated from a model of the power spectrum density (PSD), using as a template one or more of the built-in library functions. The user can also define his/her custom models.
 Models are additive.</p>
 <p>A PDF version of these notes is available <a class="reference external" href="../latex/pyLCSIM.pdf">here</a>.</p>
-<p><strong>Warning</strong>: the current release (0.x.y) is HIGHLY EXPERIMENTAL! Use at your own risk...</p>
+<p><strong>Warning</strong>: the current release (0.x.y.z) is HIGHLY EXPERIMENTAL! Use at your own risk...</p>
 </div>
 <div class="section" id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
@@ -299,9 +299,10 @@ from coherent signals and power spectrum models.</p>
 <dd><p>Main simulation class.</p>
 <dl class="docutils">
 <dt>History:</dt>
-<dd>v1.2:   Added reset method. Riccardo Campana, 2014.
-v1.1:   Bugfix. Riccardo Campana, 2014.
-v1:     Initial python implementation. Riccardo Campana, 2014.</dd>
+<dd><p class="first">v1.2:   Added reset method. Riccardo Campana, 2014.</p>
+<p>v1.1:   Bugfix. Riccardo Campana, 2014.</p>
+<p class="last">v1:     Initial python implementation. Riccardo Campana, 2014.</p>
+</dd>
 </dl>
 <dl class="method">
 <dt id="pyLCSIM.Simulation.addModel">
@@ -325,6 +326,12 @@ v1:     Initial python implementation. Riccardo Campana, 2014.</dd>
 <dt id="pyLCSIM.Simulation.info">
 <tt class="descname">info</tt><big>(</big><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation.info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints simulation informations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyLCSIM.Simulation.poissonRandomize">
+<tt class="descname">poissonRandomize</tt><big>(</big><em>dt</em>, <em>bkg</em><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation.poissonRandomize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add Poissonian noise to lightcurve (and background, if present)</p>
 </dd></dl>
 
 <dl class="method">
@@ -361,11 +368,8 @@ each with normalized pulsed fraction amp[i].</p>
 <p class="last">rate:   array of count rates</p>
 </dd>
 <dt>History:</dt>
-<dd><dl class="first last docutils">
-<dt>v1: Initial python implementation, from the IDL procedure lcharmonics.pro v0.0.3 </dt>
-<dd>by I. Donnarumma &amp; R. Campana. Riccardo Campana, 2014.</dd>
-</dl>
-</dd>
+<dd>v1: Initial python implementation, from the IDL procedure lcharmonics.pro v0.0.3 
+by I. Donnarumma &amp; R. Campana. Riccardo Campana, 2014.</dd>
 </dl>
 </dd></dl>
 
@@ -422,8 +426,7 @@ Total model is the sum of these tuples.</p>
 <dt>Returns:</dt>
 <dd>newrate: Array of Poisson randomized count rates of length n.</dd>
 <dt>History:     </dt>
-<dd>v0.1:   Riccardo Campana, 2014.
-Initial python implementation.</dd>
+<dd>v1:   Initial python implementation. Riccardo Campana, 2014.</dd>
 </dl>
 </dd></dl>
 
@@ -444,8 +447,7 @@ with Leahy normalization.</p>
 <p class="last">p:      power spectrum.</p>
 </dd>
 <dt>History:</dt>
-<dd>v0.1:   Riccardo Campana, 2014.
-Initial python implementation.</dd>
+<dd>v1:   Initial python implementation. Riccardo Campana, 2014.</dd>
 </dl>
 </dd></dl>
 
@@ -468,8 +470,7 @@ and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8
 <p class="last">yreb:   rebinned y array</p>
 </dd>
 <dt>History:</dt>
-<dd>v0.1:   Riccardo Campana, 2014.
-Initial python implementation.</dd>
+<dd>v1:   Initial python implementation. Riccardo Campana, 2014.</dd>
 </dl>
 </dd></dl>
 
@@ -492,8 +493,7 @@ and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8
 <p class="last">yreb:   rebinned y array</p>
 </dd>
 <dt>History:</dt>
-<dd>v0.1:   Riccardo Campana, 2014.
-Initial python implementation.</dd>
+<dd>v1:   Initial python implementation. Riccardo Campana, 2014.</dd>
 </dl>
 </dd></dl>
 
@@ -512,8 +512,9 @@ Initial python implementation.</dd>
 <dt>Returns:</dt>
 <dd>none</dd>
 <dt>History:</dt>
-<dd>v2:   OGIP-compliance (OGIP 93-003). Riccardo Campana, 2014
-v1:   Initial python implementation. Riccardo Campana, 2014</dd>
+<dd><p class="first">v2:   OGIP-compliance (OGIP 93-003). Riccardo Campana, 2014.</p>
+<p class="last">v1:   Initial python implementation. Riccardo Campana, 2014.</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -532,7 +533,7 @@ v1:   Initial python implementation. Riccardo Campana, 2014</dd>
 <dt>Returns:</dt>
 <dd>none</dd>
 <dt>History:</dt>
-<dd>v1:   Initial python implementation. Riccardo Campana, 2014</dd>
+<dd>v1:   Initial python implementation. Riccardo Campana, 2014.</dd>
 </dl>
 </dd></dl>
 
@@ -544,24 +545,20 @@ v1:   Initial python implementation. Riccardo Campana, 2014</dd>
 <dt id="pyLCSIM.psd_models.lorentzian">
 <tt class="descclassname">pyLCSIM.psd_models.</tt><tt class="descname">lorentzian</tt><big>(</big><em>x</em>, <em>p</em><big>)</big><a class="headerlink" href="#pyLCSIM.psd_models.lorentzian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generalized Lorentzian function.</p>
-<blockquote>
-<div><p>(<strong>WARNING</strong>: for n != 2 the function is no more normalized!)</p>
-<p>Args:
-x:      (non-zero) frequencies.</p>
+<p>(<strong>WARNING</strong>: for n != 2 the function is no more normalized!)</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">x:      (non-zero) frequencies.</p>
 <p>p[0]:   x0 = peak central frequency.</p>
-<blockquote>
-<div><p>p[1]:   gamma = FWHM of the peak.</p>
+<p>p[1]:   gamma = FWHM of the peak.</p>
 <p>p[2]:   value of the peak at x = x0.</p>
 <p>p[3]:   n = power coefficient.</p>
-</div></blockquote>
-<p>The quality factor is given by Q = x0/gamma.</p>
-</div></blockquote>
-<dl class="docutils">
+<p class="last">The quality factor is given by Q = x0/gamma.</p>
+</dd>
 <dt>Returns:</dt>
 <dd>f:  psd model.</dd>
 <dt>History:</dt>
-<dd>v0.1:   Riccardo Campana, 2014.
-Initial python implementation.</dd>
+<dd>v1:   Initial python implementation. Riccardo Campana, 2014.</dd>
 </dl>
 </dd></dl>
 
@@ -575,15 +572,12 @@ Initial python implementation.</dd>
 <p>p[0]:   Normalization.</p>
 <p>p[1]:   power law index for f&#8211;&gt; 0.</p>
 <p>p[2]:   power law index for f&#8211;&gt; oo.</p>
-<p>p[3]:   break frequency.</p>
-<dl class="last docutils">
+<p class="last">p[3]:   break frequency.</p>
+</dd>
 <dt>Returns:</dt>
 <dd>f:  psd model.</dd>
-</dl>
-</dd>
 <dt>History:</dt>
-<dd>v0.1:   Riccardo Campana, 2014.
-Initial python implementation.</dd>
+<dd>v1:   nitial python implementation. Riccardo Campana, 2014.</dd>
 </dl>
 </dd></dl>
 
