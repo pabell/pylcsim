@@ -7,12 +7,11 @@ from utils import *
 class Simulation(object):
     """
     Main simulation class.
-    
+
     History:
-        v0.1.1: Riccardo Campana, 2014-
-        Bugfix.
-        v0.1:   Riccardo Campana, 2014. 
-        Initial python implementation. 
+        v1.2:   Added reset method. Riccardo Campana, 2014.
+        v1.1:   Bugfix. Riccardo Campana, 2014.
+        v1:     Initial python implementation. Riccardo Campana, 2014. 
     """
     def __init__(self, kind='psd'):
         # Sanity check
@@ -27,6 +26,19 @@ class Simulation(object):
         self.psd  = []
         self.binsToKill = 0
         
+        
+    def reset(self):
+        """
+        Reset the simulation, emptying models array and other members
+        """
+        self.models = [] 
+        self.time = []
+        self.rate = []
+        self.freq = []
+        self.psd  = []
+        self.binsToKill = 0
+        
+        
     def addModel(self, modelName, modelParams):
         """
         Append simulation model to model dictionary
@@ -34,6 +46,7 @@ class Simulation(object):
         # Sanity check
         assert self.kind == 'psd', 'ERROR! You can add models only if simulation kind is PSD'
         self.models.append((modelName, modelParams))
+        
         
     def info(self):
         """
@@ -43,6 +56,7 @@ class Simulation(object):
         print "Simulation info"
         print "Kind: ", self.kind
         print "Model: ", "+".join(modelnames)
+        
         
     def run(self, dt, nbins_old, mean, rms=None, freq=None, nha=None, amp=None, phi=None, verbose=False):
         """
@@ -77,14 +91,17 @@ class Simulation(object):
         self.time = self.time[:-self.binsToKill]
         self.rate = self.rate[:-self.binsToKill]
         
+        
     def poissonRandomize(self, dt, bkg):
         self.rate = poisson_randomization(self.rate, dt=dt, bkg=bkg)
+    
     
     def getLightCurve(self):
         """
         Get lightcurve as time and rate arrays
         """
         return np.asarray(self.time), np.asarray(self.rate)
+    
     
     def getPowerSpectrum(self):
         """
