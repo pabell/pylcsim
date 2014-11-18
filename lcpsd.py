@@ -44,6 +44,7 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
 
     History:	 
         v1:   Initial python implementation, based on AITLIB IDL procedure timmerlc.pro. Riccardo Campana, 2014. 
+        
     """
     
     # Sanity check

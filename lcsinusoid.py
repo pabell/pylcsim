@@ -33,7 +33,8 @@ def lcsinusoid(dt=1., nbins=65536, mean=0., freq=None, nha=1, amp=None, phi=None
 
     History:
         v1: Initial python implementation, from the IDL procedure lcharmonics.pro v0.0.3 
-            by I. Donnarumma & R. Campana. Riccardo Campana, 2014. 
+        by I. Donnarumma & R. Campana. Riccardo Campana, 2014. 
+        
     """
     # Sanity checks
     if not amp:

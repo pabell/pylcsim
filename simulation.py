@@ -10,8 +10,11 @@ class Simulation(object):
 
     History:
         v1.2:   Added reset method. Riccardo Campana, 2014.
+        
         v1.1:   Bugfix. Riccardo Campana, 2014.
+        
         v1:     Initial python implementation. Riccardo Campana, 2014. 
+        
     """
     
     def __init__(self, kind='psd'):
@@ -94,6 +97,9 @@ class Simulation(object):
         
         
     def poissonRandomize(self, dt, bkg):
+        """
+        Add Poissonian noise to lightcurve (and background, if present)
+        """
         self.rate = poisson_randomization(self.rate, dt=dt, bkg=bkg)
     
     

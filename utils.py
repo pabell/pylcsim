@@ -20,8 +20,8 @@ def poisson_randomization(rate, dt=1., bkg=0., seed=None):
         newrate: Array of Poisson randomized count rates of length n.
     
     History:	 
-        v0.1:   Riccardo Campana, 2014.
-        Initial python implementation.
+        v1:   Initial python implementation. Riccardo Campana, 2014.
+
     """
     
     # Set the seed for the random generator
@@ -60,8 +60,8 @@ def psd(time, rate, norm='leahy'):
         p:      power spectrum.
         
     History:
-        v0.1:   Riccardo Campana, 2014.
-        Initial python implementation.
+        v1:   Initial python implementation. Riccardo Campana, 2014.
+
     """
     
     # Sanity checks
@@ -111,8 +111,8 @@ def rebin(x, y, nbins, mode='rate'):
         yreb:   rebinned y array
         
     History:
-        v0.1:   Riccardo Campana, 2014.
-        Initial python implementation.
+        v1:   Initial python implementation. Riccardo Campana, 2014.
+
     """
     # Sanity checks
     assert len(x) == len(y), 'ERROR: x and y must have the same length!'
@@ -154,8 +154,8 @@ def logrebin(x, y, nbins, mode='rate'):
         yreb:   rebinned y array
         
     History:
-        v0.1:   Riccardo Campana, 2014.
-        Initial python implementation.
+        v1:   Initial python implementation. Riccardo Campana, 2014.
+
     """
     # Sanity checks
     assert len(x) == len(y), 'ERROR: x and y must have the same length!'
@@ -196,8 +196,10 @@ def saveFITSLC(outfilename, time, rate, clobber=True):
         none
 
     History:
-        v2:   OGIP-compliance (OGIP 93-003). Riccardo Campana, 2014
-        v1:   Initial python implementation. Riccardo Campana, 2014
+        v2:   OGIP-compliance (OGIP 93-003). Riccardo Campana, 2014.
+        
+        v1:   Initial python implementation. Riccardo Campana, 2014.
+        
     """
     # Sanity check
     assert len(time) == len(rate), 'ERROR: Time and rate should have the same length!'
@@ -263,7 +265,8 @@ def saveFITSPSD(outfilename, freq, psd, clobber=True):
         none
 
     History:
-        v1:   Initial python implementation. Riccardo Campana, 2014
+        v1:   Initial python implementation. Riccardo Campana, 2014.
+        
     """
     # Sanity check
     assert len(freq) == len(psd), 'ERROR: Frequencies and PSD should have the same length!'
