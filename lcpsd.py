@@ -42,8 +42,10 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
 
         rate:   array of count rates.
 
-    History:	 
-        v1:   Initial python implementation, based on AITLIB IDL procedure timmerlc.pro. Riccardo Campana, 2014. 
+    History:	
+        v2: Added the possibility to employ user-defined PSD models. Riccardo Campana, 2014.
+        
+        v1: Initial python implementation, based on AITLIB IDL procedure timmerlc.pro. Riccardo Campana, 2014. 
         
     """
     
