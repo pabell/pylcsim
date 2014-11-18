@@ -1,5 +1,13 @@
+"""
+.. module:: lcpsd
+   :synopsis: Generate signals from PSD models.
+
+.. moduleauthor:: Riccardo Campana <campana@iasfbo.inaf.it>
+"""
+
 import numpy as np
 from .psd_models import *
+
 
 def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shift=None, verbose=False):
     """

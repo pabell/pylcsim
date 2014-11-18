@@ -15,25 +15,25 @@ def lcsinusoid(dt=1., nbins=65536, mean=0., freq=None, nha=1, amp=None, phi=None
 
     Kwargs:
         dt:     time resolution of the lightcurve to be simulated (default: 1.0).
-        
+
         nbins:  Number of bins of the simulated lightcurve (default: 65536).
-        
+
         freq:   if float: frequency of the fundamental harmonic, if array: frequencies of sinusoids.
-        
+
         nha:    number of harmonics (>1) 
-        
+
         amp:    array with nha/nfreq elements; pulsed fraction for each frequency
-        
+
         phi:    array with nha/nfreq elements; phases (in degrees!) for each frequency
 
     Returns:
         time:   time array
-        
+
         rate:   array of count rates
 
     History:
-        v0.1:   Riccardo Campana, 2014. Initial python implementation, from the IDL procedure
-                lcharmonics.pro v0.0.3 by I. Donnarumma & R. Campana 
+        v1: Initial python implementation, from the IDL procedure lcharmonics.pro v0.0.3 
+            by I. Donnarumma & R. Campana. Riccardo Campana, 2014. 
     """
     # Sanity checks
     if not amp:
