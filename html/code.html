@@ -51,9 +51,11 @@
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
 <li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#mailing-list">Mailing list</a></li>
 <li><a class="reference internal" href="#example-1">Example 1</a></li>
 <li><a class="reference internal" href="#example-2">Example 2</a></li>
 <li><a class="reference internal" href="#example-3">Example 3</a></li>
+<li><a class="reference internal" href="#example-4">Example 4</a></li>
 <li><a class="reference internal" href="#module-pyLCSIM">Main module</a></li>
 <li><a class="reference internal" href="#module-pyLCSIM.psd_models">Submodule: psd_models</a></li>
 <li><a class="reference internal" href="#changelog">Changelog</a></li>
@@ -99,7 +101,7 @@
 <p>Power spectra can be simulated from a model of the power spectrum density (PSD), using as a template one or more of the built-in library functions. The user can also define his/her custom models.
 Models are additive.</p>
 <p>A PDF version of these notes is available <a class="reference external" href="../latex/pyLCSIM.pdf">here</a>.</p>
-<p><strong>Warning</strong>: the current release (0.x.y.z) is HIGHLY EXPERIMENTAL! Use at your own risk...</p>
+<p><strong>Warning</strong>: the current release (0.x.y) is HIGHLY EXPERIMENTAL! Use at your own risk...</p>
 </div>
 <div class="section" id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
@@ -108,16 +110,21 @@ Models are additive.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>The package can be downloaded <a class="reference external" href="../pyLCSIM-0.1.2.tar.gz">here</a>.</p>
+<p>The package can be downloaded <a class="reference external" href="../pyLCSIM-0.2.0.tar.gz">here</a>.</p>
 <p>The installation follows the usual steps:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ tar xzvf pyLCSIM-0.1.2.tar.gz
+<div class="highlight-python"><div class="highlight"><pre>$ tar xzvf pyLCSIM-0.2.0.tar.gz
 
-$ cd pyLCSIM-0.1.2
+$ cd pyLCSIM-0.2.0
 
 $ python setup.py install
 </pre></div>
 </div>
 <p>The last step may require administrator privileges.</p>
+</div>
+<div class="section" id="mailing-list">
+<h2>Mailing list<a class="headerlink" href="#mailing-list" title="Permalink to this headline">¶</a></h2>
+<p>A dedicated mailing list is available, to host announcements of new releases, to report issues and to get support.
+If interested, subscribe <a class="reference external" href="https://groups.google.com/group/pylcsim">here</a>.</p>
 </div>
 <div class="section" id="example-1">
 <h2>Example 1<a class="headerlink" href="#example-1" title="Permalink to this headline">¶</a></h2>
@@ -190,6 +197,30 @@ The required fractional RMS variation of the signal is 1%:</p>
 </div>
 <div class="section" id="example-2">
 <h2>Example 2<a class="headerlink" href="#example-2" title="Permalink to this headline">¶</a></h2>
+<p>The user can also define his/her own PSD models, simply as python functions.
+The only caveat is that the function should be positive-valued, and it is suggested to avoid too small output values.</p>
+<p>The following example shows a simulation using an user-defined function (a Gaussian centered at 10 Hz, in this case):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">myFunc</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Example of user-defined function: a Gaussian.</span>
+<span class="sd">    User-defined PSD models should be positive-valued!</span>
+<span class="sd">    Moreover, in this example the output is clipped at 1e-32 to avoid too small values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">f</span><span class="o">-</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mf">1e-32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">pyLCSIM</span><span class="o">.</span><span class="n">Simulation</span><span class="p">()</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="s">&#39;smoothbknpo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="n">myFunc</span><span class="p">,</span> <span class="p">[</span><span class="mf">1000.</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+
+<span class="c"># Run the simulation</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">rate_src</span><span class="p">,</span> <span class="n">rms</span><span class="o">=</span><span class="n">frms</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/ex2_psd.png" src="_images/ex2_psd.png" />
+</div>
+<div class="section" id="example-3">
+<h2>Example 3<a class="headerlink" href="#example-3" title="Permalink to this headline">¶</a></h2>
 <p>The following example shows the simulation of a coherent signal
 using a sum of sinusoids:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
@@ -240,10 +271,10 @@ using a sum of sinusoids:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="_images/ex2_psd.png" src="_images/ex2_psd.png" />
+<img alt="_images/ex3_psd.png" src="_images/ex3_psd.png" />
 </div>
-<div class="section" id="example-3">
-<h2>Example 3<a class="headerlink" href="#example-3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="example-4">
+<h2>Example 4<a class="headerlink" href="#example-4" title="Permalink to this headline">¶</a></h2>
 <p>Finally, an example with a fundamental frequency and two harmonics:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -406,8 +437,10 @@ Total model is the sum of these tuples.</p>
 <dd><p class="first">time:   time array.</p>
 <p class="last">rate:   array of count rates.</p>
 </dd>
-<dt>History:     </dt>
-<dd>v1:   Initial python implementation, based on AITLIB IDL procedure timmerlc.pro. Riccardo Campana, 2014.</dd>
+<dt>History:    </dt>
+<dd><p class="first">v2: Added the possibility to employ user-defined PSD models. Riccardo Campana, 2014.</p>
+<p class="last">v1: Initial python implementation, based on AITLIB IDL procedure timmerlc.pro. Riccardo Campana, 2014.</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -584,9 +617,10 @@ and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8
 </div>
 <div class="section" id="changelog">
 <h2>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<p>v0.2.0: Added the possibility to employ user-defined PSD models.</p>
 <p>v0.1.2: Added reset method to Simulation. Lightcurve FITS output is now OGIP-compliant.</p>
 <p>v0.1.1: Bugfix. Modified Simulation class.</p>
-<p>v0.1: Initial release.</p>
+<p>v0.1.0: Initial release.</p>
 </div>
 </div>
 

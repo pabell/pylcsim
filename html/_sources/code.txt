@@ -13,7 +13,7 @@ Models are additive.
 
 A PDF version of these notes is available `here <../latex/pyLCSIM.pdf>`_.
 
-**Warning**: the current release (0.x.y.z) is HIGHLY EXPERIMENTAL! Use at your own risk...
+**Warning**: the current release (0.x.y) is HIGHLY EXPERIMENTAL! Use at your own risk...
 
 =============
 Prerequisites
@@ -27,17 +27,27 @@ pyLCSIM requires `Numpy <http://www.numpy.org>`_ (at least v1.8) and `Astropy <h
 Installation
 ============
 
-The package can be downloaded `here <../pyLCSIM-0.1.2.tar.gz>`_.
+The package can be downloaded `here <../pyLCSIM-0.2.0.tar.gz>`_.
 
 The installation follows the usual steps::
 
-	$ tar xzvf pyLCSIM-0.1.2.tar.gz
+	$ tar xzvf pyLCSIM-0.2.0.tar.gz
 	
-	$ cd pyLCSIM-0.1.2
+	$ cd pyLCSIM-0.2.0
 	
 	$ python setup.py install
 
 The last step may require administrator privileges.
+
+
+=============
+Mailing list
+=============
+
+A dedicated mailing list is available, to host announcements of new releases, to report issues and to get support.
+If interested, subscribe `here <https://groups.google.com/group/pylcsim>`_.
+
+
 
 ============
 Example 1
@@ -111,8 +121,38 @@ and view the results::
 .. image:: img/ex1_lc.png 
 .. image:: img/ex1_psd.png
 
+
 ============
 Example 2
+============
+The user can also define his/her own PSD models, simply as python functions.
+The only caveat is that the function should be positive-valued, and it is suggested to avoid too small output values.
+
+The following example shows a simulation using an user-defined function (a Gaussian centered at 10 Hz, in this case)::
+
+	def myFunc(f, p):
+	    """
+	    Example of user-defined function: a Gaussian.
+	    User-defined PSD models should be positive-valued!
+	    Moreover, in this example the output is clipped at 1e-32 to avoid too small values.
+	    """
+	    f = p[0]*np.exp(-(f-p[1])**2/p[2]**2)
+	    return np.clip(f, 1e-32, np.max(f))
+    
+	sim = pyLCSIM.Simulation()
+	sim.addModel('smoothbknpo', [1., 1, 2, 1])
+	sim.addModel(myFunc, [1000., 10, 1.])
+
+	# Run the simulation
+	sim.run(dt, nbins, rate_src, rms=frms)
+
+
+.. image:: img/ex2_psd.png
+
+
+
+============
+Example 3
 ============
 
 The following example shows the simulation of a coherent signal
@@ -165,11 +205,11 @@ Note the different exposure time (1 s) and time resolution (100 us)::
 
 	plt.show()
 
-.. image:: img/ex2_psd.png
+.. image:: img/ex3_psd.png
 
 
 ============
-Example 3
+Example 4
 ============
 
 Finally, an example with a fundamental frequency and two harmonics::
@@ -235,9 +275,11 @@ Submodule: psd_models
 =====================
 Changelog
 =====================
+v0.2.0:	Added the possibility to employ user-defined PSD models.
+
 v0.1.2: Added reset method to Simulation. Lightcurve FITS output is now OGIP-compliant.
 
 v0.1.1: Bugfix. Modified Simulation class.
 
-v0.1: Initial release.
+v0.1.0: Initial release.
 
