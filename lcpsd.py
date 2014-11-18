@@ -63,14 +63,20 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
     # (only positive frequencies, since the signal is real)
     # simfreq = ( np.arange(0, nbins/2)+1. ) / float(dt*nt)
     simfreq = np.fft.rfftfreq(nbins, d=dt)[1:]
-    
+
     simpsd = np.zeros(len(simfreq))
+    
     # Compute PSD from models
     for single_model in models:
         model  = single_model[0] 
         params = single_model[1]
-        simpsd += eval(model + "(simfreq, params)")
-
+        # If it is a built-in model:
+        if isinstance(model, basestring):
+            simpsd += eval(model + "(simfreq, params)")
+        # If it is an user-defined model (i.e. a function object):
+        else:
+            simpsd += model(simfreq, params)
+        
     if verbose:
         print "len(simfreq)", len(simfreq)
         print "len(simpsd)", len(simpsd)
@@ -81,8 +87,8 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
  
     if phase_shift:
         ph_sh_rad = np.radians(phase_shift)
-        pos_real_i = np.random.normal(size=nt/2)*fac
-        pos_imag_i = np.random.normal(size=nt/2)*fac
+        pos_real_i = np.random.normal(size=nbins/2)*fac
+        pos_imag_i = np.random.normal(size=nbins/2)*fac
         pos_real =  pos_real_i * np.cos(ph_sh_rad) - pos_imag_i * np.sin(ph_sh_rad)
         pos_imag =  pos_real_i * np.sin(ph_sh_rad) + pos_imag_i * np.cos(ph_sh_rad)
     else:

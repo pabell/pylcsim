@@ -49,6 +49,7 @@ class Simulation(object):
         """
         # Sanity check
         assert self.kind == 'psd', 'ERROR! You can add models only if simulation kind is PSD'
+        
         self.models.append((modelName, modelParams))
         
         
@@ -56,7 +57,12 @@ class Simulation(object):
         """
         Prints simulation informations
         """
-        modelnames = [x[0] for x in self.models]
+        modelnames = []
+        for x in self.models:
+            if isinstance(x[0], basestring):
+                modelnames.append(x[0])
+            else:
+                modelnames.append(x[0].__name__)     
         print "Simulation info"
         print "Kind: ", self.kind
         print "Model: ", "+".join(modelnames)
