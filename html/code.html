@@ -99,7 +99,7 @@
 <p>Power spectra can be simulated from a model of the power spectrum density (PSD), using as a template one or more of the built-in library functions. The user can also define his/her custom models.
 Models are additive.</p>
 <p>A PDF version of these notes is available <a class="reference external" href="../latex/pyLCSIM.pdf">here</a>.</p>
-<p><strong>Warning</strong>: the current release (0.1.x) is HIGHLY EXPERIMENTAL! Use at your own risk...</p>
+<p><strong>Warning</strong>: the current release (0.x.y) is HIGHLY EXPERIMENTAL! Use at your own risk...</p>
 </div>
 <div class="section" id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
@@ -108,11 +108,11 @@ Models are additive.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>The package can be downloaded <a class="reference external" href="../pyLCSIM-0.1.1.tar.gz">here</a>.</p>
+<p>The package can be downloaded <a class="reference external" href="../pyLCSIM-0.1.2.tar.gz">here</a>.</p>
 <p>The installation follows the usual steps:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ tar xzvf pyLCSIM-0.1.1.tar.gz
+<div class="highlight-python"><div class="highlight"><pre>$ tar xzvf pyLCSIM-0.1.2.tar.gz
 
-$ cd pyLCSIM-0.1.1
+$ cd pyLCSIM-0.1.2
 
 $ python setup.py install
 </pre></div>
@@ -299,10 +299,9 @@ from coherent signals and power spectrum models.</p>
 <dd><p>Main simulation class.</p>
 <dl class="docutils">
 <dt>History:</dt>
-<dd>v0.1.1: Riccardo Campana, 2014-
-Bugfix.
-v0.1:   Riccardo Campana, 2014. 
-Initial python implementation.</dd>
+<dd>v1.2:   Added reset method. Riccardo Campana, 2014.
+v1.1:   Bugfix. Riccardo Campana, 2014.
+v1:     Initial python implementation. Riccardo Campana, 2014.</dd>
 </dl>
 <dl class="method">
 <dt id="pyLCSIM.Simulation.addModel">
@@ -326,6 +325,12 @@ Initial python implementation.</dd>
 <dt id="pyLCSIM.Simulation.info">
 <tt class="descname">info</tt><big>(</big><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation.info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints simulation informations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyLCSIM.Simulation.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the simulation, emptying models array and other members</p>
 </dd></dl>
 
 <dl class="method">
@@ -357,8 +362,8 @@ each with normalized pulsed fraction amp[i].</p>
 </dd>
 <dt>History:</dt>
 <dd><dl class="first last docutils">
-<dt>v0.1:   Riccardo Campana, 2014. Initial python implementation, from the IDL procedure</dt>
-<dd>lcharmonics.pro v0.0.3 by I. Donnarumma &amp; R. Campana</dd>
+<dt>v1: Initial python implementation, from the IDL procedure lcharmonics.pro v0.0.3 </dt>
+<dd>by I. Donnarumma &amp; R. Campana. Riccardo Campana, 2014.</dd>
 </dl>
 </dd>
 </dl>
@@ -366,33 +371,39 @@ each with normalized pulsed fraction amp[i].</p>
 
 <dl class="function">
 <dt id="pyLCSIM.lcpsd">
-<tt class="descclassname">pyLCSIM.</tt><tt class="descname">lcpsd</tt><big>(</big><em>dt=1.0</em>, <em>nbins=65536</em>, <em>mean=0.0</em>, <em>rms=1.0</em>, <em>seed=None</em>, <em>models=None</em>, <em>phase_shift=None</em><big>)</big><a class="headerlink" href="#pyLCSIM.lcpsd" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">lcpsd</tt><big>(</big><em>dt=1.0</em>, <em>nbins=65536</em>, <em>mean=0.0</em>, <em>rms=1.0</em>, <em>seed=None</em>, <em>models=None</em>, <em>phase_shift=None</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pyLCSIM.lcpsd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulate a light-curve with a general power spectrum shape.
 For the underlying algorithm see: 
 J. Timmer &amp; M. Koenig, &#8220;On generating power law noise&#8221;, 
 A&amp;A, 300, 707-710 (1995).</p>
 <dl class="docutils">
 <dt>Kwargs:</dt>
-<dd><p class="first">dt:     time resolution of the lightcurve to be simulated</p>
-<p>nbins:  Number of bins of the simulated lightcurve (default:65536).
-Should be power of two for optimum performance (FFT...)</p>
-<p>mean:   Mean count rate of the simulated lightcurve (default: 0.).</p>
-<p>rms:    Total fractional RMS of the simulated lightcurve.</p>
-<p>seed:   Seed for the random number generator.</p>
-<p>models: List of tuples, each containing:
-a. Name of a function returning the desired PSD shape,
-b. Parameters of the model (argument to model).
+<dd><p class="first">dt:         time resolution of the lightcurve to be simulated</p>
+<dl class="docutils">
+<dt>nbins:      Number of bins of the simulated lightcurve (default:65536).</dt>
+<dd>Should be power of two for optimum performance (FFT...)</dd>
+</dl>
+<p>mean:       Mean count rate of the simulated lightcurve (default: 0.).</p>
+<p>rms:        Total fractional RMS of the simulated lightcurve.</p>
+<p>seed:       Seed for the random number generator.</p>
+<dl class="docutils">
+<dt>models:     List of tuples, each containing:</dt>
+<dd><ol class="first loweralpha simple">
+<li>Name of a function returning the desired PSD shape,</li>
+</ol>
+<p class="last">b. Parameters of the model (argument to model).
 Total model is the sum of these tuples.</p>
-<p class="last">phase_shift: Constant phase shift (in degrees) to the FFT.</p>
+</dd>
+</dl>
+<p>phase_shift: Constant phase shift (in degrees) to the FFT.</p>
+<p class="last">verbose:    If True, prints some debugging information.</p>
 </dd>
 <dt>Returns:</dt>
 <dd><p class="first">time:   time array.</p>
 <p class="last">rate:   array of count rates.</p>
 </dd>
 <dt>History:     </dt>
-<dd>v0.1:   Riccardo Campana, 2014. 
-Initial python implementation. 
-Based on AITLIB IDL procedure timmerlc.pro</dd>
+<dd>v1:   Initial python implementation, based on AITLIB IDL procedure timmerlc.pro. Riccardo Campana, 2014.</dd>
 </dl>
 </dd></dl>
 
@@ -501,8 +512,8 @@ Initial python implementation.</dd>
 <dt>Returns:</dt>
 <dd>none</dd>
 <dt>History:</dt>
-<dd>v0.1:   Riccardo Campana, 2014
-Initial python implementation.</dd>
+<dd>v2:   OGIP-compliance (OGIP 93-003). Riccardo Campana, 2014
+v1:   Initial python implementation. Riccardo Campana, 2014</dd>
 </dl>
 </dd></dl>
 
@@ -521,8 +532,7 @@ Initial python implementation.</dd>
 <dt>Returns:</dt>
 <dd>none</dd>
 <dt>History:</dt>
-<dd>v0.1:   Riccardo Campana, 2014
-Initial python implementation.</dd>
+<dd>v1:   Initial python implementation. Riccardo Campana, 2014</dd>
 </dl>
 </dd></dl>
 
@@ -580,6 +590,7 @@ Initial python implementation.</dd>
 </div>
 <div class="section" id="changelog">
 <h2>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<p>v0.1.2: Added reset method to Simulation. Lightcurve FITS output is now OGIP-compliant.</p>
 <p>v0.1.1: Bugfix. Modified Simulation class.</p>
 <p>v0.1: Initial release.</p>
 </div>
