@@ -13,6 +13,7 @@ class Simulation(object):
         v1.1:   Bugfix. Riccardo Campana, 2014.
         v1:     Initial python implementation. Riccardo Campana, 2014. 
     """
+    
     def __init__(self, kind='psd'):
         # Sanity check
         assert kind in ['psd', 'coherent'], \
@@ -81,7 +82,7 @@ class Simulation(object):
         else:
             self.binsToKill = nbins-nbins_old  
         
-        # Put control on input params
+        # TODO: Put control on input params
         if self.kind == 'psd':
             self.time, self.rate = lcpsd(dt=dt, nbins=nbins, mean=mean, rms=rms, models=self.models)
         

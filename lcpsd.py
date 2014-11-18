@@ -1,41 +1,41 @@
 import numpy as np
 from .psd_models import *
 
-def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shift=None):
+def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shift=None, verbose=False):
     """
     Simulate a light-curve with a general power spectrum shape.
     For the underlying algorithm see: 
     J. Timmer & M. Koenig, "On generating power law noise", 
     A&A, 300, 707-710 (1995).
-    
+
     Kwargs:
-        dt:     time resolution of the lightcurve to be simulated
-        
-        nbins:  Number of bins of the simulated lightcurve (default:65536).
-        Should be power of two for optimum performance (FFT...)
-                
-        mean:   Mean count rate of the simulated lightcurve (default: 0.).
-        
-        rms:    Total fractional RMS of the simulated lightcurve.
-        
-        seed:   Seed for the random number generator.
-        
-        models: List of tuples, each containing:
-        a. Name of a function returning the desired PSD shape,
-        b. Parameters of the model (argument to model).
-        Total model is the sum of these tuples.
-                
+        dt:         time resolution of the lightcurve to be simulated
+
+        nbins:      Number of bins of the simulated lightcurve (default:65536).
+                    Should be power of two for optimum performance (FFT...)
+
+        mean:       Mean count rate of the simulated lightcurve (default: 0.).
+
+        rms:        Total fractional RMS of the simulated lightcurve.
+
+        seed:       Seed for the random number generator.
+
+        models:     List of tuples, each containing:
+                    a. Name of a function returning the desired PSD shape,
+                    b. Parameters of the model (argument to model).
+                    Total model is the sum of these tuples.
+
         phase_shift: Constant phase shift (in degrees) to the FFT.
         
+        verbose:    If True, prints some debugging information.
+
     Returns:
         time:   time array.
-        
+
         rate:   array of count rates.
-    
+
     History:	 
-        v0.1:   Riccardo Campana, 2014. 
-        Initial python implementation. 
-        Based on AITLIB IDL procedure timmerlc.pro
+        v1:   Initial python implementation, based on AITLIB IDL procedure timmerlc.pro. Riccardo Campana, 2014. 
     """
     
     # Sanity check
@@ -62,13 +62,14 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
         params = single_model[1]
         simpsd += eval(model + "(simfreq, params)")
 
-    # print "len(simfreq)", len(simfreq)
-    # print "len(simpsd)", len(simpsd)
+    if verbose:
+        print "len(simfreq)", len(simfreq)
+        print "len(simpsd)", len(simpsd)
+        print "nbins", nbins
     
     
     fac = np.sqrt(simpsd/2.)
  
-    print nbins
     if phase_shift:
         ph_sh_rad = np.radians(phase_shift)
         pos_real_i = np.random.normal(size=nt/2)*fac
@@ -79,20 +80,20 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
         pos_real = np.random.normal(size=nbins/2)*fac
         pos_imag = np.random.normal(size=nbins/2)*fac
 
-    # print " n_elements(pos_real)", len(pos_real)
-
     pos_freq_transform = pos_real + 1j * pos_imag
 
     # Simulate light curve from its Fourier transform
     arg  = np.concatenate(([mean], pos_freq_transform))
-
-    # print "len(arg)", len(arg)
     
     # Inverse Fourier transform
     rate = np.fft.irfft(arg)
     
-
-    print len(rate)
+    if verbose:
+        print "len(pos_real)", len(pos_real)
+        print "len(pos_imag)", len(pos_imag)
+        print "len(arg)", len(arg)
+        print "len(rate)", len(rate)
+        
     # Array of time bins
     time = dt*np.arange(nbins)
 
@@ -106,8 +107,9 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
     # (where rms is the fractional rms)
     rate = (rate-avg)/std * mean * rms + mean
     
-    print "Generated curve mean ", avg, " std ", std
-    print "Rescaled curve mean ", np.mean(rate), " std ", np.std(rate)
+    if verbose:
+        print "Generated curve mean ", avg, " std ", std
+        print "Rescaled curve mean ", np.mean(rate), " std ", np.std(rate)
     
     return time, rate
 
