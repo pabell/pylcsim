@@ -1,4 +1,5 @@
 import numpy as np
+import datetime
 import astropy.io.fits as pyfits
 
 def poisson_randomization(rate, dt=1., bkg=0., seed=None):
@@ -180,33 +181,65 @@ def logrebin(x, y, nbins, mode='rate'):
 def saveFITSLC(outfilename, time, rate, clobber=True):
     """
     Produce an output FITS file containing a lightcurve.
-    
+
     Args:
         outfilename: Name of the output FITS file
-        
+
         time: Array of times
-        
+
         rate: Array of count rates
-    
+
     Kwargs:
         clobber: if True, overwrites existing files with same name
-    
+
     Returns:
         none
-        
+
     History:
-        v0.1:   Riccardo Campana, 2014
-        Initial python implementation.
+        v2:   OGIP-compliance (OGIP 93-003). Riccardo Campana, 2014
+        v1:   Initial python implementation. Riccardo Campana, 2014
     """
     # Sanity check
     assert len(time) == len(rate), 'ERROR: Time and rate should have the same length!'
     
-    col1 = pyfits.Column(name='Time', unit='s', format='E', array=time)
-    col2 = pyfits.Column(name='Rate', unit='counts/s', format='E', array=rate)
+    timedelta = time[1]-time[0]
+    
+    # Dummy start date for observation
+    start_date = datetime.datetime(2015, 1, 1)
+    stop_date  = start_date + datetime.timedelta(seconds=time[-1])
+    
+    
+    col1 = pyfits.Column(name='TIME', unit='s', format='D', array=time)
+    col2 = pyfits.Column(name='RATE', unit='count/s', format='D', array=rate)
     
     cols = pyfits.ColDefs([col1, col2])
     tbhdu = pyfits.BinTableHDU.from_columns(cols)
-    tbhdu.header['EXTNAME'] = ('LC', 'Name of this binary table extension') 
+    
+    tbhdu.header['EXTNAME']    = ('RATE', 'Name of this binary table extension') 
+    tbhdu.header['TELESCOP']   = ('PYLCSIM', 'Mission or telescope name') 
+    tbhdu.header['INSTRUME']   = ('PYLCSIM', 'Instrument name') 
+    tbhdu.header['ORIGIN']     = ('PYLCSIM', 'Who produced this file') 
+    tbhdu.header['TIMVERSN']   = ('OGIP/93-003', 'OGIP memo describing the convention used') 
+    tbhdu.header['AUTHOR']     = ('PYLCSIM', 'Name of the program that produced this file') 
+    
+    tbhdu.header['RA']         = (0, 'Source right ascension in degrees') 
+    tbhdu.header['DEC']        = (0, 'Source declination in degrees') 
+    
+    tbhdu.header['DATE-OBS']   = (start_date.strftime("%d/%m/%y"), 'Date of observation start') 
+    tbhdu.header['TIME-OBS']   = (start_date.strftime("%H:%M:%S.%f"), 'Time of observation start') 
+    tbhdu.header['DATE-END']   = (stop_date.strftime("%d/%m/%y"), 'Date of observation end') 
+    tbhdu.header['TIME-END']   = (stop_date.strftime("%H:%M:%S.%f"), 'Time of observation end') 
+    
+    tbhdu.header['TSTART']     = (0., 'Start time')
+    tbhdu.header['TSTOP']      = (time[-1], 'Stop time')
+    tbhdu.header['TIMEZERO']   = (0., 'Zero time used to calculate the n-th event')
+    tbhdu.header['TIMESYS']    = ('2015.0', 'System used to define time') 
+    tbhdu.header['TIMEUNIT']   = ('s', 'Unit for TSTART, TSTOP, TIMEZERO') 
+    tbhdu.header['CLOCKCOR']   = ('YES', 'If time corrected to UT') 
+    tbhdu.header['MJDREF']     = (57023.0, 'MJD for reference time') 
+    
+    tbhdu.header['TIMEDEL']    = (timedelta, 'Source declination in degrees') 
+    
     prihdu = pyfits.PrimaryHDU()
     thdulist = pyfits.HDUList([prihdu, tbhdu])
     thdulist.writeto(outfilename, clobber=clobber)
@@ -222,7 +255,7 @@ def saveFITSPSD(outfilename, freq, psd, clobber=True):
         freq: Array of frequencies
 
         psd: Array of power spectrum
-        
+
     Kwargs:
         clobber: if True, overwrites existing files with same name
 
@@ -230,8 +263,7 @@ def saveFITSPSD(outfilename, freq, psd, clobber=True):
         none
 
     History:
-        v0.1:   Riccardo Campana, 2014
-        Initial python implementation.
+        v1:   Initial python implementation. Riccardo Campana, 2014
     """
     # Sanity check
     assert len(freq) == len(psd), 'ERROR: Frequencies and PSD should have the same length!'
