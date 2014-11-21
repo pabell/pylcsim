@@ -9,6 +9,8 @@ class Simulation(object):
     Main simulation class.
 
     History:
+        v1.3:   Added getPSDModel method. Riccardo Campana, 2014.
+        
         v1.2:   Added reset method. Riccardo Campana, 2014.
         
         v1.1:   Bugfix. Riccardo Campana, 2014.
@@ -107,7 +109,37 @@ class Simulation(object):
         Add Poissonian noise to lightcurve (and background, if present)
         """
         self.rate = poisson_randomization(self.rate, dt=dt, bkg=bkg)
+        
     
+    def getPSDModel(self, dt, nbins, freq=1000):
+        """
+        Get PSD model
+        Returns a tuple with: 
+        frequency array, total model, array with single components
+        """
+        # Sanity check
+        assert self.kind == 'psd', 'ERROR! You can get models only if simulation kind is PSD'
+        
+        # Get frequency array
+        f_min = 1/(dt*nbins)
+        f_max = 0.5/dt
+        f = np.linspace(f_min, f_max, freq)
+        p_tot = np.zeros_like(f)
+        p_components = []
+        for single_model in self.models:
+            model  = single_model[0] 
+            params = single_model[1]
+            # If it is a built-in model:
+            if isinstance(model, basestring):
+                p_c = eval(model + "(f, params)")
+            # If it is an user-defined model (i.e. a function object):
+            else:
+                p_c = model(f, params)
+            p_components.append(p_c)
+            p_tot += p_c
+        
+        return f, p_tot, p_components        
+            
     
     def getLightCurve(self):
         """
