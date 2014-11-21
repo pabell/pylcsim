@@ -9,7 +9,7 @@ import numpy as np
 from .psd_models import *
 
 
-def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shift=None, verbose=False):
+def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shift=None, time_shift=None, verbose=False):
     """
     Simulate a light-curve with a general power spectrum shape.
     For the underlying algorithm see: 
@@ -34,6 +34,8 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
                     Total model is the sum of these tuples.
 
         phase_shift: Constant phase shift (in degrees) to the FFT.
+        
+        time_shift: Constant time shift to be inserted in the lightcurve, as a frequency-dependent phase shift.
         
         verbose:    If True, prints some debugging information.
 
@@ -93,7 +95,13 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
         pos_imag_i = np.random.normal(size=nbins/2)*fac
         pos_real =  pos_real_i * np.cos(ph_sh_rad) - pos_imag_i * np.sin(ph_sh_rad)
         pos_imag =  pos_real_i * np.sin(ph_sh_rad) + pos_imag_i * np.cos(ph_sh_rad)
-    else:
+    elif time_shift:
+        ph_sh_rad = 2*np.pi*time_shift*simfreq
+        pos_real_i = np.random.normal(size=nbins/2)*fac
+        pos_imag_i = np.random.normal(size=nbins/2)*fac
+        pos_real =  pos_real_i * np.cos(ph_sh_rad) - pos_imag_i * np.sin(ph_sh_rad)
+        pos_imag =  pos_real_i * np.sin(ph_sh_rad) + pos_imag_i * np.cos(ph_sh_rad)
+    else:    
         pos_real = np.random.normal(size=nbins/2)*fac
         pos_imag = np.random.normal(size=nbins/2)*fac
 

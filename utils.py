@@ -86,7 +86,7 @@ def psd(time, rate, norm='leahy'):
     if norm == 'leahy':
         psd = 2./n_phot * np.abs(a)**2
     
-    return f, psd
+    return f[1:], psd[1:]
 
 
 def rebin(x, y, nbins, mode='rate'):
