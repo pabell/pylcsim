@@ -27,13 +27,13 @@ pyLCSIM requires `Numpy <http://www.numpy.org>`_ (at least v1.8) and `Astropy <h
 Installation
 ============
 
-The package can be downloaded `here <../pyLCSIM-0.2.0.tar.gz>`_.
+The package can be downloaded `here <../pyLCSIM-0.2.1.tar.gz>`_.
 
 The installation follows the usual steps::
 
-	$ tar xzvf pyLCSIM-0.2.0.tar.gz
+	$ tar xzvf pyLCSIM-0.2.1.tar.gz
 	
-	$ cd pyLCSIM-0.2.0
+	$ cd pyLCSIM-0.2.1
 	
 	$ python setup.py install
 
@@ -81,8 +81,8 @@ The simulation follows as::
 
 	# Add two PSD models: a smooth broken power law and a Lorentzian representing a QPO.
 	# See the documentation for details.
-	sim.addModel('smoothbknpo', [1., 1., 2., 1.])
-	sim.addModel('lorentzian', [10., 1., 100., 10])
+	sim.addModel('smoothbknpo', [1., 1, 2, 1])
+	sim.addModel('lorentzian', [10., 1., 10, 2])
 
 	# Run the simulation
 	sim.run(dt, nbins, rate_src, rms=frms)
@@ -120,6 +120,20 @@ and view the results::
 
 .. image:: img/ex1_lc.png 
 .. image:: img/ex1_psd.png
+
+
+The PSD model used in the simulation can be obtained (and plotted) following the next example code::
+
+	freq_m, model_tot, model_comp = sim.getPSDModel(dt, nbins)
+	plt.figure()
+	for mod in model_comp:
+		# Plot the various additive component as dashed lines
+		plt.loglog(freq_m, mod, ls='dashed', color='red')
+	# Plot the total model
+	plt.loglog(freq_m, model_tot)
+	plt.show()
+
+.. image:: img/ex1_psdmodel.png
 
 
 ============
@@ -275,6 +289,8 @@ Submodule: psd_models
 =====================
 Changelog
 =====================
+v0.2.1: Added getPSDModel() method to Simulation. Bugfixes.
+
 v0.2.0:	Added the possibility to employ user-defined PSD models.
 
 v0.1.2: Added reset method to Simulation. Lightcurve FITS output is now OGIP-compliant.

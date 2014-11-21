@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Documentation for pyLCSIM &mdash; pyLCSIM 0.1 documentation</title>
+    <title>Documentation for pyLCSIM &mdash; pyLCSIM 0.2.1 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="pyLCSIM 0.1 documentation" href="index.html" />
+    <link rel="top" title="pyLCSIM 0.2.1 documentation" href="index.html" />
     <link rel="prev" title="Welcome to pyLCSIM’s documentation!" href="index.html" /> 
   </head>
   <body>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="index.html" title="Welcome to pyLCSIM’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pyLCSIM 0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">pyLCSIM 0.2.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar">
@@ -110,11 +110,11 @@ Models are additive.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>The package can be downloaded <a class="reference external" href="../pyLCSIM-0.2.0.tar.gz">here</a>.</p>
+<p>The package can be downloaded <a class="reference external" href="../pyLCSIM-0.2.1.tar.gz">here</a>.</p>
 <p>The installation follows the usual steps:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ tar xzvf pyLCSIM-0.2.0.tar.gz
+<div class="highlight-python"><div class="highlight"><pre>$ tar xzvf pyLCSIM-0.2.1.tar.gz
 
-$ cd pyLCSIM-0.2.0
+$ cd pyLCSIM-0.2.1
 
 $ python setup.py install
 </pre></div>
@@ -155,8 +155,8 @@ The required fractional RMS variation of the signal is 1%:</p>
 
 <span class="c"># Add two PSD models: a smooth broken power law and a Lorentzian representing a QPO.</span>
 <span class="c"># See the documentation for details.</span>
-<span class="n">sim</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="s">&#39;smoothbknpo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
-<span class="n">sim</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="s">&#39;lorentzian&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="s">&#39;smoothbknpo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="s">&#39;lorentzian&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 
 <span class="c"># Run the simulation</span>
 <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">rate_src</span><span class="p">,</span> <span class="n">rms</span><span class="o">=</span><span class="n">frms</span><span class="p">)</span>
@@ -194,6 +194,18 @@ The required fractional RMS variation of the signal is 1%:</p>
 </div>
 <img alt="_images/ex1_lc.png" src="_images/ex1_lc.png" />
 <img alt="_images/ex1_psd.png" src="_images/ex1_psd.png" />
+<p>The PSD model used in the simulation can be obtained (and plotted) following the next example code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">freq_m</span><span class="p">,</span> <span class="n">model_tot</span><span class="p">,</span> <span class="n">model_comp</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">getPSDModel</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">mod</span> <span class="ow">in</span> <span class="n">model_comp</span><span class="p">:</span>
+        <span class="c"># Plot the various additive component as dashed lines</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">freq_m</span><span class="p">,</span> <span class="n">mod</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">)</span>
+<span class="c"># Plot the total model</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">freq_m</span><span class="p">,</span> <span class="n">model_tot</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/ex1_psdmodel.png" src="_images/ex1_psdmodel.png" />
 </div>
 <div class="section" id="example-2">
 <h2>Example 2<a class="headerlink" href="#example-2" title="Permalink to this headline">¶</a></h2>
@@ -330,7 +342,8 @@ from coherent signals and power spectrum models.</p>
 <dd><p>Main simulation class.</p>
 <dl class="docutils">
 <dt>History:</dt>
-<dd><p class="first">v1.2:   Added reset method. Riccardo Campana, 2014.</p>
+<dd><p class="first">v1.3:   Added getPSDModel method. Riccardo Campana, 2014.</p>
+<p>v1.2:   Added reset method. Riccardo Campana, 2014.</p>
 <p>v1.1:   Bugfix. Riccardo Campana, 2014.</p>
 <p class="last">v1:     Initial python implementation. Riccardo Campana, 2014.</p>
 </dd>
@@ -345,6 +358,14 @@ from coherent signals and power spectrum models.</p>
 <dt id="pyLCSIM.Simulation.getLightCurve">
 <tt class="descname">getLightCurve</tt><big>(</big><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation.getLightCurve" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get lightcurve as time and rate arrays</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyLCSIM.Simulation.getPSDModel">
+<tt class="descname">getPSDModel</tt><big>(</big><em>dt</em>, <em>nbins</em>, <em>freq=1000</em><big>)</big><a class="headerlink" href="#pyLCSIM.Simulation.getPSDModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get PSD model
+Returns a tuple with: 
+frequency array, total model, array with single components</p>
 </dd></dl>
 
 <dl class="method">
@@ -406,7 +427,7 @@ by I. Donnarumma &amp; R. Campana. Riccardo Campana, 2014.</dd>
 
 <dl class="function">
 <dt id="pyLCSIM.lcpsd">
-<tt class="descclassname">pyLCSIM.</tt><tt class="descname">lcpsd</tt><big>(</big><em>dt=1.0</em>, <em>nbins=65536</em>, <em>mean=0.0</em>, <em>rms=1.0</em>, <em>seed=None</em>, <em>models=None</em>, <em>phase_shift=None</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pyLCSIM.lcpsd" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">lcpsd</tt><big>(</big><em>dt=1.0</em>, <em>nbins=65536</em>, <em>mean=0.0</em>, <em>rms=1.0</em>, <em>seed=None</em>, <em>models=None</em>, <em>phase_shift=None</em>, <em>time_shift=None</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pyLCSIM.lcpsd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulate a light-curve with a general power spectrum shape.
 For the underlying algorithm see: 
 J. Timmer &amp; M. Koenig, &#8220;On generating power law noise&#8221;, 
@@ -431,6 +452,7 @@ Total model is the sum of these tuples.</p>
 </dd>
 </dl>
 <p>phase_shift: Constant phase shift (in degrees) to the FFT.</p>
+<p>time_shift: Constant time shift to be inserted in the lightcurve, as a frequency-dependent phase shift.</p>
 <p class="last">verbose:    If True, prints some debugging information.</p>
 </dd>
 <dt>Returns:</dt>
@@ -617,6 +639,7 @@ and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8
 </div>
 <div class="section" id="changelog">
 <h2>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<p>v0.2.1: Added getPSDModel() method to Simulation. Bugfixes.</p>
 <p>v0.2.0: Added the possibility to employ user-defined PSD models.</p>
 <p>v0.1.2: Added reset method to Simulation. Lightcurve FITS output is now OGIP-compliant.</p>
 <p>v0.1.1: Bugfix. Modified Simulation class.</p>
@@ -642,7 +665,7 @@ and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8
         <li class="right" >
           <a href="index.html" title="Welcome to pyLCSIM’s documentation!"
              >previous</a> |</li>
-        <li><a href="index.html">pyLCSIM 0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">pyLCSIM 0.2.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
