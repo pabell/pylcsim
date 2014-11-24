@@ -4,7 +4,7 @@ from coherent signals and power spectrum models.
 """
 
 __author__ = 'Riccardo Campana'
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 
 from simulation import Simulation
 from lcsinusoid import lcsinusoid
