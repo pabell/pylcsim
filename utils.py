@@ -89,18 +89,20 @@ def psd(time, rate, norm='leahy'):
     return f[1:], psd[1:]
 
 
-def rebin(x, y, nbins, mode='rate'):
+def rebin(x, y, factor, mode='rate', verbose=False):
     """
-    Linearly rebins the (x, y) 1-D arrays using #nbins new bins, 
+    Linearly rebins the (x, y) 1-D arrays by factor,
+    i.e. with len(x)/factor new bins, 
     taking for each new element the mean of the corresponding x elements,
     and the sum (if mode=='counts') or the mean (if mode=='rate') of the corresponding y elements.
+    If the new number of bins is not a factor of the old one, the array is cropped.
       
     Args:
         x:   x array (same length as y)
         
         y:   y array (same length as x)
         
-        nbins:   Number of new bins. Should be a factor of len(x) == len(y).
+        factor:   rebinning factor
     
     Kwargs:
         mode: 'counts' or 'rate'; returns sum or mean of y-array elements
@@ -111,24 +113,31 @@ def rebin(x, y, nbins, mode='rate'):
         yreb:   rebinned y array
         
     History:
-        v1:   Initial python implementation. Riccardo Campana, 2014.
+        v2:    Switched to rebinning factor instead of number of new bins. Riccardo Campana, 2014.
+        v1:    Initial python implementation. Riccardo Campana, 2014.
 
     """
     # Sanity checks
     assert len(x) == len(y), 'ERROR: x and y must have the same length!'
-    assert len(x) % nbins == 0,  'ERROR: nbins should be a factor of len(x) = len(y)'
     assert (mode == 'counts' or mode == 'rate'), 'ERROR: keyword mode should be counts or rate'
     
+    oldbins = len(x)
+    cropping_limit = oldbins - (oldbins % int(factor))
     
-    factor = len(x)/nbins
+    if verbose:
+        newbins = int(cropping_limit/float(factor))
+        print "Rebinning a %d long array by a factor %d with %d new bins" % (oldbins, factor, newbins)
     
-    xreb = x.reshape((nbins, factor)).mean(axis=1)
+    cropped_x = x[:cropping_limit]
+    cropped_y = y[:cropping_limit]
+    
+    xreb = np.mean( np.concatenate([[cropped_x[i::factor] for i in xrange(factor)] ]), axis=0)
     
     if mode == 'counts':
-        yreb = y.reshape((nbins, factor)).sum(axis=1)
+        yreb = np.sum( np.concatenate([[cropped_y[i::factor] for i in xrange(factor)] ]), axis=0)
     elif mode == 'rate':
-        yreb = y.reshape((nbins, factor)).mean(axis=1)
-                
+        yreb = np.mean( np.concatenate([[cropped_y[i::factor] for i in xrange(factor)] ]), axis=0)  
+         
     return xreb, yreb
 
 
