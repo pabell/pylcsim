@@ -141,9 +141,10 @@ def rebin(x, y, factor, mode='rate', verbose=False):
     return xreb, yreb
 
 
-def logrebin(x, y, nbins, mode='rate'):
+def logrebin(x, y, factor, mode='rate', verbose=False):
     """
-    Logarithmically rebins the (x, y) 1-D arrays using #nbins new bins, 
+    Logarithmically rebins the (x, y) 1-D arrays by a constant logarithmic bin log(1+1/factor),
+    i.e. each new bin has a width (1+1/factor) greater than the preceding;
     taking for each new element the logarithmic mean of the corresponding x elements,
     and the sum (if mode=='counts') or the mean (if mode=='rate') of the corresponding y elements.
       
@@ -152,7 +153,7 @@ def logrebin(x, y, nbins, mode='rate'):
         
         y:   y array (same length as x)
         
-        nbins:   Number of new bins.
+        factor:   logarithmic rebinning factor
     
     Kwargs:
         mode: 'counts' or 'rate'; returns sum or mean of y-array elements
@@ -163,26 +164,29 @@ def logrebin(x, y, nbins, mode='rate'):
         yreb:   rebinned y array
         
     History:
-        v1:   Initial python implementation. Riccardo Campana, 2014.
+        v2:    Switched to logarithmic rebinning factor. Riccardo Campana, 2014.     
+        v1:    Initial python implementation. Riccardo Campana, 2014.
 
     """
     # Sanity checks
     assert len(x) == len(y), 'ERROR: x and y must have the same length!'
-    #assert len(x) % nbins == 0,  'ERROR: nbins should be a factor of len(x) = len(y)'
     assert (mode == 'counts' or mode == 'rate'), 'ERROR: keyword mode should be counts or rate'
     
+    xreb = []
+    newx = x[0]
+    while newx <= x[-1]:
+        xreb.append(newx)
+        newx = newx * (1 + 1./factor)
     
     
-    newbins = np.logspace(np.log10(np.min(x)+1e-12), np.log10(np.max(x)), nbins)
-    
-    xreb = newbins[:-1] + np.diff(newbins)/2
-    
-    digitized = np.digitize(x, newbins)
+    digitized = np.digitize(x, xreb)
+    newbins = len(xreb)
     
     if mode == 'counts':
-        yreb = [y[digitized == i].sum() for i in xrange(1, len(newbins))]
+        yreb = [y[digitized == i].sum() for i in xrange(newbins)]
     elif mode == 'rate':
-        yreb = [y[digitized == i].mean() for i in xrange(1, len(newbins))]
+        import warnings; warnings.filterwarnings('ignore') # To avoid RuntimeWarning if empty slice
+        yreb = [y[digitized == i].mean() for i in xrange(newbins)]
                 
     return np.asarray(xreb), np.asarray(yreb)
     
