@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Documentation for pyLCSIM &mdash; pyLCSIM 0.2.1 documentation</title>
+    <title>Documentation for pyLCSIM &mdash; pyLCSIM 0.2.2 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.1',
+        VERSION:     '0.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="pyLCSIM 0.2.1 documentation" href="index.html" />
+    <link rel="top" title="pyLCSIM 0.2.2 documentation" href="index.html" />
     <link rel="prev" title="Welcome to pyLCSIM’s documentation!" href="index.html" /> 
   </head>
   <body>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="index.html" title="Welcome to pyLCSIM’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pyLCSIM 0.2.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">pyLCSIM 0.2.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar">
@@ -110,11 +110,11 @@ Models are additive.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>The package can be downloaded <a class="reference external" href="../pyLCSIM-0.2.1.tar.gz">here</a>.</p>
+<p>The package can be downloaded <a class="reference external" href="../pyLCSIM-0.2.2.tar.gz">here</a>.</p>
 <p>The installation follows the usual steps:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ tar xzvf pyLCSIM-0.2.1.tar.gz
+<div class="highlight-python"><div class="highlight"><pre>$ tar xzvf pyLCSIM-0.2.2.tar.gz
 
-$ cd pyLCSIM-0.2.1
+$ cd pyLCSIM-0.2.2
 
 $ python setup.py install
 </pre></div>
@@ -508,15 +508,17 @@ with Leahy normalization.</p>
 
 <dl class="function">
 <dt id="pyLCSIM.rebin">
-<tt class="descclassname">pyLCSIM.</tt><tt class="descname">rebin</tt><big>(</big><em>x</em>, <em>y</em>, <em>nbins</em>, <em>mode='rate'</em><big>)</big><a class="headerlink" href="#pyLCSIM.rebin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Linearly rebins the (x, y) 1-D arrays using #nbins new bins, 
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">rebin</tt><big>(</big><em>x</em>, <em>y</em>, <em>factor</em>, <em>mode='rate'</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pyLCSIM.rebin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Linearly rebins the (x, y) 1-D arrays by factor,
+i.e. with len(x)/factor new bins, 
 taking for each new element the mean of the corresponding x elements,
-and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8217;) of the corresponding y elements.</p>
+and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8217;) of the corresponding y elements.
+If the new number of bins is not a factor of the old one, the array is cropped.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd><p class="first">x:   x array (same length as y)</p>
 <p>y:   y array (same length as x)</p>
-<p class="last">nbins:   Number of new bins. Should be a factor of len(x) == len(y).</p>
+<p class="last">factor:   rebinning factor</p>
 </dd>
 <dt>Kwargs:</dt>
 <dd>mode: &#8216;counts&#8217; or &#8216;rate&#8217;; returns sum or mean of y-array elements</dd>
@@ -525,21 +527,23 @@ and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8
 <p class="last">yreb:   rebinned y array</p>
 </dd>
 <dt>History:</dt>
-<dd>v1:   Initial python implementation. Riccardo Campana, 2014.</dd>
+<dd>v2:    Switched to rebinning factor instead of number of new bins. Riccardo Campana, 2014.
+v1:    Initial python implementation. Riccardo Campana, 2014.</dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pyLCSIM.logrebin">
-<tt class="descclassname">pyLCSIM.</tt><tt class="descname">logrebin</tt><big>(</big><em>x</em>, <em>y</em>, <em>nbins</em>, <em>mode='rate'</em><big>)</big><a class="headerlink" href="#pyLCSIM.logrebin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Logarithmically rebins the (x, y) 1-D arrays using #nbins new bins, 
+<tt class="descclassname">pyLCSIM.</tt><tt class="descname">logrebin</tt><big>(</big><em>x</em>, <em>y</em>, <em>factor</em>, <em>mode='rate'</em>, <em>verbose=False</em><big>)</big><a class="headerlink" href="#pyLCSIM.logrebin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logarithmically rebins the (x, y) 1-D arrays by a constant logarithmic bin log(1+1/factor),
+i.e. each new bin has a width (1+1/factor) greater than the preceding;
 taking for each new element the logarithmic mean of the corresponding x elements,
 and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8217;) of the corresponding y elements.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd><p class="first">x:   x array (same length as y)</p>
 <p>y:   y array (same length as x)</p>
-<p class="last">nbins:   Number of new bins.</p>
+<p class="last">factor:   logarithmic rebinning factor</p>
 </dd>
 <dt>Kwargs:</dt>
 <dd>mode: &#8216;counts&#8217; or &#8216;rate&#8217;; returns sum or mean of y-array elements</dd>
@@ -548,7 +552,8 @@ and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8
 <p class="last">yreb:   rebinned y array</p>
 </dd>
 <dt>History:</dt>
-<dd>v1:   Initial python implementation. Riccardo Campana, 2014.</dd>
+<dd>v2:    Switched to logarithmic rebinning factor. Riccardo Campana, 2014.     
+v1:    Initial python implementation. Riccardo Campana, 2014.</dd>
 </dl>
 </dd></dl>
 
@@ -639,6 +644,7 @@ and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8
 </div>
 <div class="section" id="changelog">
 <h2>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<p>v0.2.2: Modified rebinning functions (rebin() and logrebin()).</p>
 <p>v0.2.1: Added getPSDModel() method to Simulation. Bugfixes.</p>
 <p>v0.2.0: Added the possibility to employ user-defined PSD models.</p>
 <p>v0.1.2: Added reset method to Simulation. Lightcurve FITS output is now OGIP-compliant.</p>
@@ -665,7 +671,7 @@ and the sum (if mode==&#8217;counts&#8217;) or the mean (if mode==&#8217;rate&#8
         <li class="right" >
           <a href="index.html" title="Welcome to pyLCSIM’s documentation!"
              >previous</a> |</li>
-        <li><a href="index.html">pyLCSIM 0.2.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">pyLCSIM 0.2.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

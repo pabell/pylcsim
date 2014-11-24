@@ -27,13 +27,13 @@ pyLCSIM requires `Numpy <http://www.numpy.org>`_ (at least v1.8) and `Astropy <h
 Installation
 ============
 
-The package can be downloaded `here <../pyLCSIM-0.2.1.tar.gz>`_.
+The package can be downloaded `here <../pyLCSIM-0.2.2.tar.gz>`_.
 
 The installation follows the usual steps::
 
-	$ tar xzvf pyLCSIM-0.2.1.tar.gz
+	$ tar xzvf pyLCSIM-0.2.2.tar.gz
 	
-	$ cd pyLCSIM-0.2.1
+	$ cd pyLCSIM-0.2.2
 	
 	$ python setup.py install
 
@@ -289,6 +289,8 @@ Submodule: psd_models
 =====================
 Changelog
 =====================
+v0.2.2: Modified rebinning functions (rebin() and logrebin()).
+
 v0.2.1: Added getPSDModel() method to Simulation. Bugfixes.
 
 v0.2.0:	Added the possibility to employ user-defined PSD models.
