@@ -27,13 +27,22 @@ pyLCSIM requires `Numpy <http://www.numpy.org>`_ (at least v1.8) and `Astropy <h
 Installation
 ============
 
-The package can be downloaded `here <../pyLCSIM-0.2.2.tar.gz>`_.
-
-The installation follows the usual steps::
-
-	$ tar xzvf pyLCSIM-0.2.2.tar.gz
+The most straightforward way to install pyLCSIM is to use the `Python Package Index <https://pypi.python.org>`_ and its pip utility (may require administrator privileges)::
 	
-	$ cd pyLCSIM-0.2.2
+	$ pip install pyLCSIM
+
+To upgrade from a previous version::
+	
+	$ pip install pyLCSIM --upgrade
+	
+
+The package source can be also downloaded `here <../pyLCSIM-0.2.2.tar.gz>`_.
+
+The installation in this case follows the usual steps::
+
+	$ tar xzvf pyLCSIM-0.x.y.tar.gz
+	
+	$ cd pyLCSIM-0.x.y
 	
 	$ python setup.py install
 
