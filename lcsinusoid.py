@@ -7,7 +7,9 @@
 
 import numpy as np
 
-def lcsinusoid(dt=1., nbins=65536, mean=0., freq=None, nha=1, amp=None, phi=None):
+from __future__ import print_function
+
+def lcsinusoid(dt=1., nbins=65536, mean=0., freq=None, nha=1, amp=None, phi=None, verbose=False):
     """
     Generate coherent signals as a sequence of sinusoids (if len(freq) > 1) or
     of the fundamental frequency plus nha-1 harmonics (if len(freq) == 1),
@@ -57,8 +59,9 @@ def lcsinusoid(dt=1., nbins=65536, mean=0., freq=None, nha=1, amp=None, phi=None
             assert len(amp) == nfreq, 'ERROR: Need as many pulsed fraction as frequencies!'
             if not phi:
                 phi = np.zeros(nfreq)
-         
-    print mean            
+      
+    if verbose:     
+        print("mean", mean)            
 
     # Array of time bins
     time = dt*np.arange(nbins)

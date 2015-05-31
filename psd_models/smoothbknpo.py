@@ -17,7 +17,7 @@ def smoothbknpo(x, p):
         f:  psd model.
 
     History:
-        v1:   nitial python implementation. Riccardo Campana, 2014.
+        v1:   Initial python implementation. Riccardo Campana, 2014.
 
     """
     f = p[0]*x**(-p[1])/(1.+(x/p[3])**2.)**(-(p[1]-p[2])/2.)

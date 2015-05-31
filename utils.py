@@ -2,6 +2,8 @@ import numpy as np
 import datetime
 import astropy.io.fits as pyfits
 
+from __future__ import print_function
+
 def poisson_randomization(rate, dt=1., bkg=0., seed=None):
     """
     Poisson randomization of the rate array.
@@ -74,7 +76,7 @@ def psd(time, rate, norm='leahy'):
     # Total number of photons
     counts = rate*dt
     n_phot = np.sum(counts)
-    print "Total number of photons:", n_phot
+    print("Total number of photons: {}".format(n_phot))
     
     # Number of points
     n = len(counts)
@@ -126,7 +128,7 @@ def rebin(x, y, factor, mode='rate', verbose=False):
     
     if verbose:
         newbins = int(cropping_limit/float(factor))
-        print "Rebinning a %d long array by a factor %d with %d new bins" % (oldbins, factor, newbins)
+        print("Rebinning a {} long array by a factor {} with {} new bins".format(oldbins, factor, newbins))
     
     cropped_x = x[:cropping_limit]
     cropped_y = y[:cropping_limit]

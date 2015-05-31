@@ -8,6 +8,8 @@
 import numpy as np
 from .psd_models import *
 
+from __future__ import print_function
+
 
 def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shift=None, time_shift=None, verbose=False):
     """
@@ -82,9 +84,9 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
             simpsd += model(simfreq, params)
         
     if verbose:
-        print "len(simfreq)", len(simfreq)
-        print "len(simpsd)", len(simpsd)
-        print "nbins", nbins
+        print("len(simfreq)", len(simfreq) )
+        print("len(simpsd)", len(simpsd) )
+        print("nbins", nbins)
     
     
     fac = np.sqrt(simpsd/2.)
@@ -114,10 +116,10 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
     rate = np.fft.irfft(arg)
     
     if verbose:
-        print "len(pos_real)", len(pos_real)
-        print "len(pos_imag)", len(pos_imag)
-        print "len(arg)", len(arg)
-        print "len(rate)", len(rate)
+        print("len(pos_real)", len(pos_real) )
+        print("len(pos_imag)", len(pos_imag) )
+        print("len(arg)", len(arg) )
+        print("len(rate)", len(rate))
         
     # Array of time bins
     time = dt*np.arange(nbins)
@@ -133,8 +135,8 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
     rate = (rate-avg)/std * mean * rms + mean
     
     if verbose:
-        print "Generated curve mean ", avg, " std ", std
-        print "Rescaled curve mean ", np.mean(rate), " std ", np.std(rate)
+        print("Generated curve: mean = {} std.dev = {} ".format(avg, std))
+        print("Rescaled curve: mean = {} std.dev = {}".format(np.mean(rate), np.std(rate)))
     
     return time, rate
 

@@ -3,6 +3,7 @@ from lcpsd import *
 from lcsinusoid import *
 from utils import *
 
+from __future__ import print_function
 
 class Simulation(object):
     """
@@ -80,16 +81,16 @@ class Simulation(object):
         # (greater than or equal to the original value)
         lg2  = np.log2(nbins_old)
         nbins = long(2**(np.ceil(lg2)))
-        if verbose:
-            print "Original nbins:\t\t",   nbins_old
-            print "Rounded nbins:\t\t",    nbins
-            print "Power of 2:\t\t",       int(np.ceil(lg2))
-            print "Original exp. time (s):\t",  nbins_old*dt
-            print "Rounded exp. time (s):\t",  nbins*dt
+        if verbose:                                          
+            print("Original nbins:\t\t",   nbins_old         )
+            print("Rounded nbins:\t\t",    nbins             )
+            print("Power of 2:\t\t",       int(np.ceil(lg2)) )
+            print("Original exp. time (s):\t",  nbins_old*dt )
+            print("Rounded exp. time (s):\t",  nbins*dt      )
         if nbins > 2**24:
             nbins = 2**24
             if verbose:
-                print "Maximum number of bins (2^24) exceeded. Reset to 2^24."
+                print("Maximum number of bins (2^24) exceeded. Reset to 2^24.")
         else:
             self.binsToKill = nbins-nbins_old  
         
