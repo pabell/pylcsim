@@ -6,7 +6,6 @@
 """
 
 import numpy as np
-
 from __future__ import print_function
 
 def lcsinusoid(dt=1., nbins=65536, mean=0., freq=None, nha=1, amp=None, phi=None, verbose=False):

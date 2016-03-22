@@ -1,7 +1,6 @@
 import numpy as np
 import datetime
 import astropy.io.fits as pyfits
-
 from __future__ import print_function
 
 def poisson_randomization(rate, dt=1., bkg=0., seed=None):

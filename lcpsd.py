@@ -6,9 +6,8 @@
 """
 
 import numpy as np
-from .psd_models import *
-
 from __future__ import print_function
+from .psd_models import *
 
 
 def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shift=None, time_shift=None, verbose=False):
@@ -80,32 +79,33 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
         if isinstance(model, basestring):
             simpsd += eval(model + "(simfreq, params)")
         # If it is an user-defined model (i.e. a function object):
+        # TODO: insert type check
         else:
             simpsd += model(simfreq, params)
         
     if verbose:
-        print("len(simfreq)", len(simfreq) )
-        print("len(simpsd)", len(simpsd) )
+        print("len(simfreq)", len(simfreq))
+        print("len(simpsd)", len(simpsd))
         print("nbins", nbins)
     
     
     fac = np.sqrt(simpsd/2.)
  
     if phase_shift:
-        ph_sh_rad = np.radians(phase_shift)
+        ph_sh_rad  = np.radians(phase_shift)
         pos_real_i = np.random.normal(size=nbins/2)*fac
         pos_imag_i = np.random.normal(size=nbins/2)*fac
-        pos_real =  pos_real_i * np.cos(ph_sh_rad) - pos_imag_i * np.sin(ph_sh_rad)
-        pos_imag =  pos_real_i * np.sin(ph_sh_rad) + pos_imag_i * np.cos(ph_sh_rad)
+        pos_real   =  pos_real_i * np.cos(ph_sh_rad) - pos_imag_i * np.sin(ph_sh_rad)
+        pos_imag   =  pos_real_i * np.sin(ph_sh_rad) + pos_imag_i * np.cos(ph_sh_rad)
     elif time_shift:
-        ph_sh_rad = 2*np.pi*time_shift*simfreq
+        ph_sh_rad  = 2*np.pi*time_shift*simfreq
         pos_real_i = np.random.normal(size=nbins/2)*fac
         pos_imag_i = np.random.normal(size=nbins/2)*fac
-        pos_real =  pos_real_i * np.cos(ph_sh_rad) - pos_imag_i * np.sin(ph_sh_rad)
-        pos_imag =  pos_real_i * np.sin(ph_sh_rad) + pos_imag_i * np.cos(ph_sh_rad)
+        pos_real   =  pos_real_i * np.cos(ph_sh_rad) - pos_imag_i * np.sin(ph_sh_rad)
+        pos_imag   =  pos_real_i * np.sin(ph_sh_rad) + pos_imag_i * np.cos(ph_sh_rad)
     else:    
-        pos_real = np.random.normal(size=nbins/2)*fac
-        pos_imag = np.random.normal(size=nbins/2)*fac
+        pos_real   = np.random.normal(size=nbins/2)*fac
+        pos_imag   = np.random.normal(size=nbins/2)*fac
 
     pos_freq_transform = pos_real + 1j * pos_imag
 
@@ -116,9 +116,9 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
     rate = np.fft.irfft(arg)
     
     if verbose:
-        print("len(pos_real)", len(pos_real) )
-        print("len(pos_imag)", len(pos_imag) )
-        print("len(arg)", len(arg) )
+        print("len(pos_real)", len(pos_real))
+        print("len(pos_imag)", len(pos_imag))
+        print("len(arg)", len(arg))
         print("len(rate)", len(rate))
         
     # Array of time bins

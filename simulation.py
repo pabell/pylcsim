@@ -1,9 +1,9 @@
 import numpy as np
+from __future__ import print_function
 from lcpsd import *
 from lcsinusoid import *
 from utils import *
 
-from __future__ import print_function
 
 class Simulation(object):
     """
