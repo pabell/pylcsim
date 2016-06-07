@@ -36,7 +36,7 @@ To upgrade from a previous version::
 	$ pip install pyLCSIM --upgrade
 	
 
-The package source can be also downloaded `here <../pyLCSIM-0.2.2.tar.gz>`_.
+The package source can be also downloaded `here <../pyLCSIM-0.2.3.tar.gz>`_.
 
 The installation in this case follows the usual steps::
 
@@ -56,6 +56,12 @@ Mailing list
 A dedicated mailing list is available, to host announcements of new releases, to report issues and to get support.
 If interested, subscribe `here <https://groups.google.com/group/pylcsim>`_.
 
+
+=============
+License
+=============
+
+The package is distributed under the `MIT license <https://opensource.org/licenses/MIT>`_.
 
 
 ============
@@ -298,6 +304,8 @@ Submodule: psd_models
 =====================
 Changelog
 =====================
+v0.2.3: Minor bugfixes.
+
 v0.2.2: Modified rebinning functions (rebin() and logrebin()).
 
 v0.2.1: Added getPSDModel() method to Simulation. Bugfixes.
