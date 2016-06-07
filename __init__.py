@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 """
 A python package to simulate X-ray lightcurves
 from coherent signals and power spectrum models.

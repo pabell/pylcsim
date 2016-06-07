@@ -4,7 +4,6 @@
 
 .. moduleauthor:: Riccardo Campana <campana@iasfbo.inaf.it>
 """
-from __future__ import print_function
 import numpy as np
 
 def lcsinusoid(dt=1., nbins=65536, mean=0., freq=None, nha=1, amp=None, phi=None, verbose=False):

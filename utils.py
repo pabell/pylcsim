@@ -1,4 +1,3 @@
-from __future__ import print_function
 import numpy as np
 import datetime
 import astropy.io.fits as pyfits

@@ -4,7 +4,6 @@
 
 .. moduleauthor:: Riccardo Campana <campana@iasfbo.inaf.it>
 """
-from __future__ import print_function
 import numpy as np
 from .psd_models import *
 
