@@ -1,5 +1,5 @@
-import numpy as np
 from __future__ import print_function
+import numpy as np
 from lcpsd import *
 from lcsinusoid import *
 from utils import *
@@ -66,9 +66,9 @@ class Simulation(object):
                 modelnames.append(x[0])
             else:
                 modelnames.append(x[0].__name__)     
-        print "Simulation info"
-        print "Kind: ", self.kind
-        print "Model: ", "+".join(modelnames)
+        print("Simulation info")
+        print("Kind: ".format(self.kind))
+        print("Model: {:s}".format("+".join(modelnames)))
         
         
     def run(self, dt, nbins_old, mean, rms=None, freq=None, nha=None, amp=None, phi=None, verbose=False):
