@@ -68,11 +68,11 @@ def lcsinusoid(dt=1., nbins=65536, mean=0., freq=None, nha=1, amp=None, phi=None
 
     if nfreq == 1:
         # Cycle on harmonics
-        for n in xrange(nha):
+        for n in range(nha):
             rate += mean * amp[n] * np.sin(2.*np.pi*(n+1)*freq*time + phir[n]) 
     else:
         # Cycle on sinusoids        
-        for i in xrange(nfreq):
+        for i in range(nfreq):
             rate += mean * amp[i] * np.sin(2.*np.pi*freq[i]*time + phir[i]) 
 
     rate += mean

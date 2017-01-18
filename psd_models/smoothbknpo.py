@@ -1,3 +1,5 @@
+from __future__ import division
+
 def smoothbknpo(x, p):
     """
     Smooth broken power law.

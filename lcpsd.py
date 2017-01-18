@@ -74,6 +74,10 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
         model  = single_model[0] 
         params = single_model[1]
         # If it is a built-in model:
+        try:
+            basestring
+        except NameError:
+            basestring = str
         if isinstance(model, basestring):
             simpsd += eval(model + "(simfreq, params)")
         # If it is an user-defined model (i.e. a function object):
@@ -91,19 +95,19 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
  
     if phase_shift:
         ph_sh_rad  = np.radians(phase_shift)
-        pos_real_i = np.random.normal(size=nbins/2)*fac
-        pos_imag_i = np.random.normal(size=nbins/2)*fac
+        pos_real_i = np.random.normal(size=nbins//2)*fac
+        pos_imag_i = np.random.normal(size=nbins//2)*fac
         pos_real   =  pos_real_i * np.cos(ph_sh_rad) - pos_imag_i * np.sin(ph_sh_rad)
         pos_imag   =  pos_real_i * np.sin(ph_sh_rad) + pos_imag_i * np.cos(ph_sh_rad)
     elif time_shift:
         ph_sh_rad  = 2*np.pi*time_shift*simfreq
-        pos_real_i = np.random.normal(size=nbins/2)*fac
-        pos_imag_i = np.random.normal(size=nbins/2)*fac
+        pos_real_i = np.random.normal(size=nbins//2)*fac
+        pos_imag_i = np.random.normal(size=nbins//2)*fac
         pos_real   =  pos_real_i * np.cos(ph_sh_rad) - pos_imag_i * np.sin(ph_sh_rad)
         pos_imag   =  pos_real_i * np.sin(ph_sh_rad) + pos_imag_i * np.cos(ph_sh_rad)
     else:    
-        pos_real   = np.random.normal(size=nbins/2)*fac
-        pos_imag   = np.random.normal(size=nbins/2)*fac
+        pos_real   = np.random.normal(size=nbins//2)*fac
+        pos_imag   = np.random.normal(size=nbins//2)*fac
 
     pos_freq_transform = pos_real + 1j * pos_imag
 

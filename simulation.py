@@ -1,7 +1,11 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import object
 import numpy as np
-from lcpsd import *
-from lcsinusoid import *
-from utils import *
+from .lcpsd import *
+from .lcsinusoid import *
+from .utils import *
 
 
 class Simulation(object):
@@ -60,6 +64,10 @@ class Simulation(object):
         Prints simulation informations
         """
         modelnames = []
+        try:
+            basestring
+        except NameError:
+            basestring = str
         for x in self.models:
             if isinstance(x[0], basestring):
                 modelnames.append(x[0])
@@ -79,19 +87,19 @@ class Simulation(object):
         # Rounding to the nearest power of 2 for the FFT
         # (greater than or equal to the original value)
         lg2  = np.log2(nbins_old)
-        nbins = long(2**(np.ceil(lg2)))
+        nbins = int(2**(np.ceil(lg2)))
         if verbose:                                          
-            print("Original nbins:\t\t",   nbins_old         )
-            print("Rounded nbins:\t\t",    nbins             )
-            print("Power of 2:\t\t",       int(np.ceil(lg2)) )
-            print("Original exp. time (s):\t",  nbins_old*dt )
-            print("Rounded exp. time (s):\t",  nbins*dt      )
+            print(("Original nbins:\t\t",   nbins_old         ))
+            print(("Rounded nbins:\t\t",    nbins             ))
+            print(("Power of 2:\t\t",       int(np.ceil(lg2)) ))
+            print(("Original exp. time (s):\t",  nbins_old*dt ))
+            print(("Rounded exp. time (s):\t",  nbins*dt      ))
         if nbins > 2**24:
             nbins = 2**24
             if verbose:
                 print("Maximum number of bins (2^24) exceeded. Reset to 2^24.")
         else:
-            self.binsToKill = nbins-nbins_old  
+            self.binsToKill = int(nbins-nbins_old)
         
         # TODO: Put control on input params
         if self.kind == 'psd':
@@ -119,7 +127,11 @@ class Simulation(object):
         """
         # Sanity check
         assert self.kind == 'psd', 'ERROR! You can get models only if simulation kind is PSD'
-        
+        try:
+            basestring
+        except NameError:
+            basestring = str
+                
         # Get frequency array
         f_min = 1/(dt*nbins)
         f_max = 0.5/dt

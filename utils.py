@@ -1,3 +1,6 @@
+from __future__ import division
+from __future__ import print_function
+from builtins import range
 import numpy as np
 import datetime
 import astropy.io.fits as pyfits
@@ -34,7 +37,7 @@ def poisson_randomization(rate, dt=1., bkg=0., seed=None):
     l = (np.clip(rate, 0., np.max(rate)) + bkg)*dt 
     newrate = np.zeros(n)
     
-    for i in xrange(n):
+    for i in range(n):
     	newrate[i] = np.random.poisson(l[i])/float(dt)
 
     return newrate
@@ -131,12 +134,12 @@ def rebin(x, y, factor, mode='rate', verbose=False):
     cropped_x = x[:cropping_limit]
     cropped_y = y[:cropping_limit]
     
-    xreb = np.mean( np.concatenate([[cropped_x[i::factor] for i in xrange(factor)] ]), axis=0)
+    xreb = np.mean( np.concatenate([[cropped_x[i::factor] for i in range(factor)] ]), axis=0)
     
     if mode == 'counts':
-        yreb = np.sum( np.concatenate([[cropped_y[i::factor] for i in xrange(factor)] ]), axis=0)
+        yreb = np.sum( np.concatenate([[cropped_y[i::factor] for i in range(factor)] ]), axis=0)
     elif mode == 'rate':
-        yreb = np.mean( np.concatenate([[cropped_y[i::factor] for i in xrange(factor)] ]), axis=0)  
+        yreb = np.mean( np.concatenate([[cropped_y[i::factor] for i in range(factor)] ]), axis=0)  
          
     return xreb, yreb
 
@@ -183,10 +186,10 @@ def logrebin(x, y, factor, mode='rate', verbose=False):
     newbins = len(xreb)
     
     if mode == 'counts':
-        yreb = [y[digitized == i].sum() for i in xrange(newbins)]
+        yreb = [y[digitized == i].sum() for i in range(newbins)]
     elif mode == 'rate':
         import warnings; warnings.filterwarnings('ignore') # To avoid RuntimeWarning if empty slice
-        yreb = [y[digitized == i].mean() for i in xrange(newbins)]
+        yreb = [y[digitized == i].mean() for i in range(newbins)]
                 
     return np.asarray(xreb), np.asarray(yreb)
     
@@ -257,7 +260,7 @@ def saveFITSLC(outfilename, time, rate, clobber=True):
     
     prihdu = pyfits.PrimaryHDU()
     thdulist = pyfits.HDUList([prihdu, tbhdu])
-    thdulist.writeto(outfilename, clobber=clobber)
+    thdulist.writeto(outfilename, overwrite=clobber)
     
 
 def saveFITSPSD(outfilename, freq, psd, clobber=True):
@@ -292,4 +295,4 @@ def saveFITSPSD(outfilename, freq, psd, clobber=True):
     tbhdu.header['EXTNAME'] = ('PSD', 'Name of this binary table extension') 
     prihdu = pyfits.PrimaryHDU()
     thdulist = pyfits.HDUList([prihdu, tbhdu])
-    thdulist.writeto(outfilename, clobber=clobber)
+    thdulist.writeto(outfilename, overwrite=clobber)

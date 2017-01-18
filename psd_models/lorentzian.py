@@ -1,3 +1,5 @@
+from __future__ import division
+
 def lorentzian(x, p):
     """
     Generalized Lorentzian function.
