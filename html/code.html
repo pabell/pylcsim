@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Documentation for pyLCSIM &mdash; pyLCSIM 0.2.3 documentation</title>
+    <title>Documentation for pyLCSIM &#8212; pyLCSIM 0.3.0 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.3',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="pyLCSIM 0.2.3 documentation" href="index.html" />
+    <link rel="top" title="pyLCSIM 0.3.0 documentation" href="index.html" />
     <link rel="prev" title="Welcome to pyLCSIM’s documentation!" href="index.html" /> 
   </head>
   <body role="document">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="index.html" title="Welcome to pyLCSIM’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pyLCSIM 0.2.3 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pyLCSIM 0.3.0 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -77,14 +77,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -114,16 +111,16 @@ Models are additive.</p>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>The most straightforward way to install pyLCSIM is to use the <a class="reference external" href="https://pypi.python.org">Python Package Index</a> and its pip utility (may require administrator privileges):</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ pip install pyLCSIM
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install pyLCSIM
 </pre></div>
 </div>
 <p>To upgrade from a previous version:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ pip install pyLCSIM --upgrade
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install pyLCSIM --upgrade
 </pre></div>
 </div>
 <p>The package source can be also downloaded <a class="reference external" href="../pyLCSIM-0.2.3.tar.gz">here</a>.</p>
 <p>The installation in this case follows the usual steps:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>$ tar xzvf pyLCSIM-0.x.y.tar.gz
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ tar xzvf pyLCSIM-0.x.y.tar.gz
 
 $ cd pyLCSIM-0.x.y
 
@@ -145,15 +142,15 @@ If interested, subscribe <a class="reference external" href="https://groups.goog
 <h2>Example 1<a class="headerlink" href="#example-1" title="Permalink to this headline">¶</a></h2>
 <p>Let&#8217;s begin with a PSD model simulation.</p>
 <p>We import the usual packages:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pyLCSIM</span>
 </pre></div>
 </div>
 <p>We assume that our source has a rate of 30000 counts/s. Moreover, we have a 5000 counts/s background rate, and we have made a  50 s exposure. Our observation has a time resolution of 10 ms.
 We want to simulate a QPO at a frequency of 10 Hz, superimposed to a continuum modelled as a smoothly-varying broken power law (spectral indices 1 and 2, with a steepness change at 1 Hz).
 The required fractional RMS variation of the signal is 1%:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">rate_src</span>    <span class="o">=</span> <span class="mf">30000.0</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rate_src</span>    <span class="o">=</span> <span class="mf">30000.0</span>
 <span class="n">rate_bkg</span>    <span class="o">=</span> <span class="mf">5000.0</span>
 <span class="n">t_exp</span>       <span class="o">=</span> <span class="mf">50.0</span>
 <span class="n">dt</span>          <span class="o">=</span> <span class="mf">0.01</span>
@@ -161,11 +158,11 @@ The required fractional RMS variation of the signal is 1%:</p>
 </pre></div>
 </div>
 <p>The total bins of the lightcurve are therefore:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">nbins</span> <span class="o">=</span> <span class="nb">long</span><span class="p">(</span><span class="n">t_exp</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nbins</span> <span class="o">=</span> <span class="n">t_exp</span><span class="o">/</span><span class="n">dt</span>
 </pre></div>
 </div>
 <p>The simulation follows as:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Instantiate a simulation object</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Instantiate a simulation object</span>
 <span class="n">sim</span> <span class="o">=</span> <span class="n">pyLCSIM</span><span class="o">.</span><span class="n">Simulation</span><span class="p">()</span>
 
 <span class="c1"># Add two PSD models: a smooth broken power law and a Lorentzian representing a QPO.</span>
@@ -185,13 +182,13 @@ The required fractional RMS variation of the signal is 1%:</p>
 </pre></div>
 </div>
 <p>Done! We can save the results as FITS files:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Save FITS files with lightcurve and spectrum</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Save FITS files with lightcurve and spectrum</span>
 <span class="n">pyLCSIM</span><span class="o">.</span><span class="n">saveFITSLC</span><span class="p">(</span><span class="s2">&quot;myLC.fits&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
 <span class="n">pyLCSIM</span><span class="o">.</span><span class="n">saveFITSPSD</span><span class="p">(</span><span class="s2">&quot;myPSD.fits&quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">psd</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>and view the results:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Plot the lightcurve and power spectrum</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Plot the lightcurve and power spectrum</span>
 <span class="n">fig0</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
@@ -210,7 +207,7 @@ The required fractional RMS variation of the signal is 1%:</p>
 <img alt="_images/ex1_lc.png" src="_images/ex1_lc.png" />
 <img alt="_images/ex1_psd.png" src="_images/ex1_psd.png" />
 <p>The PSD model used in the simulation can be obtained (and plotted) following the next example code:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">freq_m</span><span class="p">,</span> <span class="n">model_tot</span><span class="p">,</span> <span class="n">model_comp</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">getPSDModel</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">freq_m</span><span class="p">,</span> <span class="n">model_tot</span><span class="p">,</span> <span class="n">model_comp</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">getPSDModel</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">mod</span> <span class="ow">in</span> <span class="n">model_comp</span><span class="p">:</span>
         <span class="c1"># Plot the various additive component as dashed lines</span>
@@ -227,14 +224,14 @@ The required fractional RMS variation of the signal is 1%:</p>
 <p>The user can also define his/her own PSD models, simply as python functions.
 The only caveat is that the function should be positive-valued, and it is suggested to avoid too small output values.</p>
 <p>The following example shows a simulation using an user-defined function (a Gaussian centered at 10 Hz, in this case):</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">myFunc</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">myFunc</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Example of user-defined function: a Gaussian.</span>
 <span class="sd">    User-defined PSD models should be positive-valued!</span>
 <span class="sd">    Moreover, in this example the output is clipped at 1e-32 to avoid too small values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">f</span><span class="o">-</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mf">1e-32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
 
 <span class="n">sim</span> <span class="o">=</span> <span class="n">pyLCSIM</span><span class="o">.</span><span class="n">Simulation</span><span class="p">()</span>
 <span class="n">sim</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="s1">&#39;smoothbknpo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
@@ -250,19 +247,19 @@ The only caveat is that the function should be positive-valued, and it is sugges
 <h2>Example 3<a class="headerlink" href="#example-3" title="Permalink to this headline">¶</a></h2>
 <p>The following example shows the simulation of a coherent signal
 using a sum of sinusoids:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pyLCSIM</span>
 
 <span class="n">rate_src</span>    <span class="o">=</span> <span class="mf">30000.0</span>
 <span class="n">rate_bkg</span>    <span class="o">=</span> <span class="mf">5000.0</span>
 <span class="n">t_exp</span>       <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">dt</span>          <span class="o">=</span> <span class="mf">0.0001</span>
-<span class="n">nbins</span> <span class="o">=</span> <span class="nb">long</span><span class="p">(</span><span class="n">t_exp</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">nbins</span> <span class="o">=</span> <span class="n">t_exp</span><span class="o">/</span><span class="n">dt</span>
 </pre></div>
 </div>
 <p>Note the different exposure time (1 s) and time resolution (100 us):</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Instantiate a simulation object, this time as coherent</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Instantiate a simulation object, this time as coherent</span>
 <span class="n">sim</span> <span class="o">=</span> <span class="n">pyLCSIM</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;coherent&#39;</span><span class="p">)</span>
 
 <span class="c1"># Run the simulation, using:</span>
@@ -303,8 +300,8 @@ using a sum of sinusoids:</p>
 <div class="section" id="example-4">
 <h2>Example 4<a class="headerlink" href="#example-4" title="Permalink to this headline">¶</a></h2>
 <p>Finally, an example with a fundamental frequency and two harmonics:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pyLCSIM</span>
 
 <span class="n">rate_src</span>    <span class="o">=</span> <span class="mf">300000.0</span>
@@ -312,9 +309,7 @@ using a sum of sinusoids:</p>
 <span class="n">t_exp</span>       <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">dt</span>          <span class="o">=</span> <span class="mf">0.0001</span>
 <span class="n">phase_shift</span> <span class="o">=</span> <span class="mf">0.</span>
-<span class="n">nbins</span> <span class="o">=</span> <span class="nb">long</span><span class="p">(</span><span class="n">t_exp</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
-
-<span class="k">print</span> <span class="n">nbins</span>
+<span class="n">nbins</span> <span class="o">=</span> <span class="n">t_exp</span><span class="o">/</span><span class="n">dt</span>
 
 <span class="c1"># Instantiate a simulation object, this time as coherent</span>
 <span class="n">sim</span> <span class="o">=</span> <span class="n">pyLCSIM</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;coherent&#39;</span><span class="p">)</span>
@@ -657,6 +652,7 @@ v1:    Initial python implementation. Riccardo Campana, 2014.</dd>
 </div>
 <div class="section" id="changelog">
 <h2>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<p>v0.3.0: Added python 3.x compatibility.</p>
 <p>v0.2.3: Minor bugfixes.</p>
 <p>v0.2.2: Modified rebinning functions (rebin() and logrebin()).</p>
 <p>v0.2.1: Added getPSDModel() method to Simulation. Bugfixes.</p>
@@ -685,12 +681,12 @@ v1:    Initial python implementation. Riccardo Campana, 2014.</dd>
         <li class="right" >
           <a href="index.html" title="Welcome to pyLCSIM’s documentation!"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pyLCSIM 0.2.3 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pyLCSIM 0.3.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2014, Riccardo Campana.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
+        &#169; Copyright 2014, 2015, 2016, 2017, Riccardo Campana.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
     </div>
   </body>
 </html>

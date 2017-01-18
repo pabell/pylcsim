@@ -87,7 +87,7 @@ The required fractional RMS variation of the signal is 1%::
 	
 The total bins of the lightcurve are therefore::
 	
-	nbins = long(t_exp/dt)
+	nbins = t_exp/dt
 
 The simulation follows as::
 
@@ -195,7 +195,7 @@ using a sum of sinusoids::
 	rate_bkg    = 5000.0
 	t_exp       = 1.0
 	dt          = 0.0001
-	nbins = long(t_exp/dt)
+	nbins = t_exp/dt
 
 Note the different exposure time (1 s) and time resolution (100 us)::
 
@@ -252,9 +252,7 @@ Finally, an example with a fundamental frequency and two harmonics::
 	t_exp       = 1.0
 	dt          = 0.0001
 	phase_shift = 0.
-	nbins = long(t_exp/dt)
-
-	print nbins
+	nbins = t_exp/dt
 
 	# Instantiate a simulation object, this time as coherent
 	sim = pyLCSIM.Simulation(kind='coherent')
@@ -304,6 +302,8 @@ Submodule: psd_models
 =====================
 Changelog
 =====================
+v0.3.0: Added python 3.x compatibility.
+
 v0.2.3: Minor bugfixes.
 
 v0.2.2: Modified rebinning functions (rebin() and logrebin()).
