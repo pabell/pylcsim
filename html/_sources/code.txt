@@ -36,7 +36,7 @@ To upgrade from a previous version::
 	$ pip install pyLCSIM --upgrade
 	
 
-The package source can be also downloaded `here <../pyLCSIM-0.2.3.tar.gz>`_.
+The package source can be also downloaded `here <../pyLCSIM-0.3.0.tar.gz>`_.
 
 The installation in this case follows the usual steps::
 
