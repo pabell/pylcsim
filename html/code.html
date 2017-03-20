@@ -118,7 +118,7 @@ Models are additive.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install pyLCSIM --upgrade
 </pre></div>
 </div>
-<p>The package source can be also downloaded <a class="reference external" href="../pyLCSIM-0.3.0.tar.gz">here</a>.</p>
+<p>The package source can be also downloaded <a class="reference external" href="../pyLCSIM-0.4.0.tar.gz">here</a>.</p>
 <p>The installation in this case follows the usual steps:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ tar xzvf pyLCSIM-0.x.y.tar.gz
 
@@ -242,6 +242,19 @@ The only caveat is that the function should be positive-valued, and it is sugges
 </pre></div>
 </div>
 <img alt="_images/ex2_psd.png" src="_images/ex2_psd.png" />
+<p>Additionally, PSD models can be also defined as <a class="reference external" href="http://docs.astropy.org/en/stable/modeling/">astropy.modeling.models</a> functions.</p>
+<p>The following example is equivalent to the previous one (a Gaussian centered at 10 Hz):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.modeling</span> <span class="k">import</span> <span class="n">models</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">pyLCSIM</span><span class="o">.</span><span class="n">Simulation</span><span class="p">()</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="s1">&#39;smoothbknpo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="c1"># For astropy.modeling.models, you should define a dictionary of parameters instead of the usual list:</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Gaussian1D</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;amplitude&#39;</span><span class="p">:</span><span class="mf">1000.</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">:</span><span class="mf">10.</span><span class="p">,</span> <span class="s1">&#39;stddev&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">})</span>
+
+<span class="c1"># Run the simulation</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">rate_src</span><span class="p">,</span> <span class="n">rms</span><span class="o">=</span><span class="n">frms</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="example-3">
 <h2>Example 3<a class="headerlink" href="#example-3" title="Permalink to this headline">¶</a></h2>
@@ -652,6 +665,7 @@ v1:    Initial python implementation. Riccardo Campana, 2014.</dd>
 </div>
 <div class="section" id="changelog">
 <h2>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<p>v0.4.0: Added support for astropy.modeling.models functions.</p>
 <p>v0.3.0: Added python 3.x compatibility.</p>
 <p>v0.2.3: Minor bugfixes.</p>
 <p>v0.2.2: Modified rebinning functions (rebin() and logrebin()).</p>

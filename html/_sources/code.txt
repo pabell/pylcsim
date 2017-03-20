@@ -36,7 +36,7 @@ To upgrade from a previous version::
 	$ pip install pyLCSIM --upgrade
 	
 
-The package source can be also downloaded `here <../pyLCSIM-0.3.0.tar.gz>`_.
+The package source can be also downloaded `here <../pyLCSIM-0.4.0.tar.gz>`_.
 
 The installation in this case follows the usual steps::
 
@@ -178,7 +178,20 @@ The following example shows a simulation using an user-defined function (a Gauss
 
 .. image:: img/ex2_psd.png
 
+Additionally, PSD models can be also defined as `astropy.modeling.models <http://docs.astropy.org/en/stable/modeling/>`_ functions.
 
+The following example is equivalent to the previous one (a Gaussian centered at 10 Hz)::
+
+    from astropy.modeling import models
+    
+    sim = pyLCSIM.Simulation()
+    sim.addModel('smoothbknpo', [1., 1, 2, 1])
+    # For astropy.modeling.models, you should define a dictionary of parameters instead of the usual list:
+    sim.addModel(models.Gaussian1D, {'amplitude':1000., 'mean':10., 'stddev':1.})
+    
+    # Run the simulation
+    sim.run(dt, nbins, rate_src, rms=frms)
+    
 
 ============
 Example 3
@@ -302,6 +315,8 @@ Submodule: psd_models
 =====================
 Changelog
 =====================
+v0.4.0: Added support for astropy.modeling.models functions.
+
 v0.3.0: Added python 3.x compatibility.
 
 v0.2.3: Minor bugfixes.
