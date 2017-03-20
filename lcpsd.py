@@ -5,6 +5,7 @@
 .. moduleauthor:: Riccardo Campana <campana@iasfbo.inaf.it>
 """
 import numpy as np
+import astropy.modeling.models
 from .psd_models import *
 
 
@@ -80,6 +81,13 @@ def lcpsd(dt=1., nbins=65536, mean=0., rms=1., seed=None, models=None, phase_shi
             basestring = str
         if isinstance(model, basestring):
             simpsd += eval(model + "(simfreq, params)")
+            
+        # If it is an astropy.modeling.models object:
+        elif isinstance(model, type(astropy.modeling.models.Gaussian1D)):
+            assert type(params) == dict, 'ERROR: params should be a dict, for astropy.modeling models'
+            modelingfunc = model(**params)
+            simpsd += modelingfunc(simfreq)   
+            
         # If it is an user-defined model (i.e. a function object):
         # TODO: insert type check
         else:

@@ -3,6 +3,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import object
 import numpy as np
+from astropy.modeling import models
 from .lcpsd import *
 from .lcsinusoid import *
 from .utils import *
@@ -144,6 +145,11 @@ class Simulation(object):
             # If it is a built-in model:
             if isinstance(model, basestring):
                 p_c = eval(model + "(f, params)")
+            # If it is an astropy.modeling.models object:
+            elif isinstance(model, type(astropy.modeling.models.Gaussian1D)):
+                assert type(params) == dict, 'ERROR: params should be a dict, for astropy.modeling models'
+                modelingfunc = model(**params)
+                p_c = modelingfunc(f)   
             # If it is an user-defined model (i.e. a function object):
             else:
                 p_c = model(f, params)
